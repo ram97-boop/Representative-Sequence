@@ -2,12 +2,11 @@
 
 from Bio import pairwise2 as pw
 
-class DistanceMatrix:
+class ScoreMatrix:
     def __init__(self, cols, rows):
         self.cols = cols
         self.rows = rows
         self.matrix = self.createMatrix(self.cols)
-        
 
     def createMatrix(self, cols):
         matrix = []
@@ -15,7 +14,6 @@ class DistanceMatrix:
             matrix.append([])
 
         return matrix
-
 
 
 def findScores(gene, other_sequences):
@@ -29,7 +27,7 @@ def findScores(gene, other_sequences):
     scores = matrix of alignment scores from gene's
     sequences to all sequences in other_sequences.
     '''
-    scores = DistanceMatrix(len(gene), len(other_sequences))
+    scores = ScoreMatrix(len(gene), len(other_sequences))
     seq_i = 0
 
     for seq1 in gene:
