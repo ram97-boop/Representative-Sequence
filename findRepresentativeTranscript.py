@@ -1,5 +1,22 @@
+# -*- coding: utf-8 -*- 
+
 from Bio import pairwise2 as pw
 import numpy as np
+
+class DistanceMatrix:
+    def __init__(self, cols, rows):
+        self.cols = cols
+        self.rows = rows
+        self.matrix = createMatrix()
+
+    def createMatrix(self.cols):
+        matrix = []
+        for i in range(self.cols):
+            matrix.append([])
+
+        self.matrix = np.array(matrix, dtype=int)
+
+
 
 def findDistances(seq, other_sequences):
     '''
@@ -12,4 +29,4 @@ def findDistances(seq, other_sequences):
     distances (list of distances from
     seq to all sequences in other_sequences)
     '''
-    pass
+    
