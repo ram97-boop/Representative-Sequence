@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*- 
 
 from Bio import pairwise2 as pw
-import numpy as np
 
 class DistanceMatrix:
     def __init__(self, cols, rows):
