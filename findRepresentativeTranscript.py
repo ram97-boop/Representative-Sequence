@@ -7,14 +7,15 @@ class DistanceMatrix:
     def __init__(self, cols, rows):
         self.cols = cols
         self.rows = rows
-        self.matrix = createMatrix()
+        self.matrix = self.createMatrix(self.cols)
+        
 
-    def createMatrix(self.cols):
+    def createMatrix(self, cols):
         matrix = []
-        for i in range(self.cols):
+        for i in range(cols):
             matrix.append([])
 
-        self.matrix = np.array(matrix, dtype=int)
+        return np.array(matrix, dtype=int)
 
 
 
