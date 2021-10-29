@@ -16,22 +16,22 @@ class ScoreMatrix:
         return matrix
 
 
-def findScores(gene, other_sequences):
+def findScores(gene, otherSequences):
     '''
     Pairwise-aligns the sequences of gene with
-    all of the sequences in other_sequences 
+    all of the sequences in otherSequences 
     and then calculates the scores of gene's
     sequences' alignments with them.
 
     Output:
     scores = matrix of alignment scores from gene's
-    sequences to all sequences in other_sequences.
+    sequences to all sequences in otherSequences.
     '''
-    scores = ScoreMatrix(len(gene), len(other_sequences))
+    scores = ScoreMatrix(len(gene), len(otherSequences))
     seq_i = 0
 
     for seq1 in gene:
-        for seq2 in other_sequences:
+        for seq2 in otherSequences:
             alignment = pw.align.globalxx(seq1, seq2)
             scores.matrix[seq_i].append(alignment[0].score)
 
@@ -49,11 +49,11 @@ def getSequences(f, gene_i):
     Output:
     gene (list of str) = sequences of gene with the
     index i in the file f.
-    other_sequences (list of str) = sequences of the
+    otherSequences (list of str) = sequences of the
     rest of the genes in f.
     '''
 
-def arrangeGenes(f):
+def arrangeGenes(f, output_f):
     '''
     Input:
     '''
