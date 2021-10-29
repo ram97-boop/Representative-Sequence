@@ -1,0 +1,4 @@
+for geneFile in *.fa
+do
+	echo $geneFile | python3 findRepTS.py >> rep_$geneFile
+done
