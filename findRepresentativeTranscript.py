@@ -38,3 +38,22 @@ def findScores(gene, other_sequences):
         seq_i+=1
 
     return scores
+
+def getSequences(f, gene_i):
+    '''
+    Input:
+    f (str) = file name.
+    gene_i (int) = the index of the gene that will
+    be the parameter 'gene' in findScores().
+
+    Output:
+    gene (list of str) = sequences of gene with the
+    index i in the file f.
+    other_sequences (list of str) = sequences of the
+    rest of the genes in f.
+    '''
+
+def arrangeGenes(f):
+    '''
+    Input:
+    '''
