@@ -3,7 +3,8 @@
 from Bio import pairwise2 as pw
 
 class ScoreMatrix:
-    def __init__(self, cols, rows):
+    def __init__(self, gene, cols, rows):
+        self.gene = gene
         self.cols = cols
         self.rows = rows
         self.matrix = self.createMatrix(self.cols)
@@ -15,6 +16,18 @@ class ScoreMatrix:
 
         return matrix
 
+def addScores(scoreMatrix, otherGene):
+    '''
+    Adds scores of the alignment between the gene
+    in scoreMatrix and otherGene.
+
+    Input:
+    scoreMatrix (ScoreMatrix) = the ScoreMatrix for
+    the gene being aligned to all other genes.
+    otherGene (str) = another gene sequence.
+    '''
+    
+
 
 def findScores(gene, otherSequences):
     '''
@@ -22,6 +35,10 @@ def findScores(gene, otherSequences):
     all of the sequences in otherSequences 
     and then calculates the scores of gene's
     sequences' alignments with them.
+
+    Input:
+    gene (list) = list of alternative sequences of gene.
+    otherSequences (list) = list of all the other sequences.
 
     Output:
     scores = matrix of alignment scores from gene's
@@ -53,7 +70,8 @@ def getSequences(f, gene_i):
     rest of the genes in f.
     '''
 
-def arrangeGenes(f, output_f):
-    '''
-    Input:
-    '''
+def lookAtOtherGenes(geneF, seqF):
+    geneFile = open(geneF, 'r')
+    
+    gene = geneFile.read()
+
