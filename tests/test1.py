@@ -20,6 +20,20 @@ def lookAtOtherGenes(geneFile, seqFile):
                 print(seq)
                 print(gene)
 
+def getSequences(geneFile):
+    gene = open(geneFile, 'r')
+    line = gene.readline()
+    sequences = [] # Will contain the sequences of gene.
+    try:
+        while line != "\n":
+            seq_i=0
+            if line[0] == ">":
+                sequences.append('')
+                line = gene.readline()
+                while line != "\n":
+                    sequences[seq_i].append(line)
+
+
 def main():
     f = 'gene.fa'
     readFile(f)
