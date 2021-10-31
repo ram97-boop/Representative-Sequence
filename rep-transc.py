@@ -53,14 +53,14 @@ def getSequences(geneFile):
     line = gene.readline()
     sequences = [] # Will contain the sequences of gene.
     try:
-        seq_i=0
+        seq_i=0 # Will be used to index the list sequences.
+
         # While we're not at the end of the file
         while line != '':
             # If we're at the identifier line of a sequence
             if line[0] == '>':
-
                 # Add a placeholder for the sequence in
-                # the sequence list
+                # the list sequences
                 sequences.append('')
 
                 # Go to the next line, which is the start
@@ -69,9 +69,9 @@ def getSequences(geneFile):
 
                 # While we're not at the end of the sequence
                 while line != '\n':
-
-                    # Append the line of subsequence without
-                    # the '\n' at the end
+                    # Append the line (subsequence) without
+                    # the '\n' character at the end to the
+                    # sequence in sequences[seq_i]
                     if line[-1] == '\n':
                         sequences[seq_i] += line[:-1]
                     else:
@@ -79,12 +79,27 @@ def getSequences(geneFile):
 
                     line = gene.readline()
                 
-                # line = '\n' so we move to next line
-                # which will start with '>'
+                # line = '\n' so we move to the next line
+                # which will start with '>' and is the
+                # identifier line for the next sequence
                 line = gene.readline()
 
                 seq_i += 1
     except:
         print('Something went wrong')
+
+    return sequences
+
+def getAllSeq(f):
+    '''
+    Returns a list of all the sequences in all
+    the gene files with their file names in f.
+    '''
+    fileOfGenes = open(f, 'r')
+    sequences = []
+
+    geneFile = fileOfGenes.readline()
+    while geneFile != '': #While we're not at the end of fileOfGenes
+        sequences += getSequences(geneFile)
 
     return sequences
