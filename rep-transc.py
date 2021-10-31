@@ -103,3 +103,22 @@ def getAllSeq(f):
         sequences += getSequences(geneFile)
 
     return sequences
+
+def getRepSeq(scoreMatrix):
+    '''
+    Returns the number (place) where the representative
+    sequence is in its gene file.
+    '''
+    scoreSum = []
+    for seqScores in scoreMatrix:
+        # Sum the all the scores of the sequence
+        # and put it in scoreSum
+        scoreSum.append(sum(seqScores))
+
+    # Get the index of scoreSum with the maximum sum
+    max_i = 0
+    i = 0
+    while i < len(scoreSum):
+        if scoreSum[i] > scoreSum[max_i]:
+            max_i = i
+        i+=1
