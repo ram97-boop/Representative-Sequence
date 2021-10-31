@@ -16,18 +16,6 @@ class ScoreMatrix:
 
         return matrix
 
-def addScores(scoreMatrix, otherGene):
-    '''
-    Adds scores of the alignment between the gene
-    in scoreMatrix and otherGene.
-
-    Input:
-    scoreMatrix (ScoreMatrix) = the ScoreMatrix for
-    the gene being aligned to all other genes.
-    otherGene (str) = another gene sequence.
-    '''
-    
-
 
 def findScores(gene, otherSequences):
     '''
@@ -56,22 +44,47 @@ def findScores(gene, otherSequences):
 
     return scores
 
-def getSequences(f, gene_i):
+def getSequences(geneFile):
     '''
-    Input:
-    f (str) = file name.
-    gene_i (int) = the index of the gene that will
-    be the parameter 'gene' in findScores().
-
-    Output:
-    gene (list of str) = sequences of gene with the
-    index i in the file f.
-    otherSequences (list of str) = sequences of the
-    rest of the genes in f.
+    Returns a list of the sequences in
+    geneFile.
     '''
+    gene = open(geneFile, 'r')
+    line = gene.readline()
+    sequences = [] # Will contain the sequences of gene.
+    try:
+        seq_i=0
+        # While we're not at the end of the file
+        while line != '':
+            # If we're at the identifier line of a sequence
+            if line[0] == '>':
 
-def lookAtOtherGenes(geneF, seqF):
-    geneFile = open(geneF, 'r')
-    
-    gene = geneFile.read()
+                # Add a placeholder for the sequence in
+                # the sequence list
+                sequences.append('')
 
+                # Go to the next line, which is the start
+                # of the sequence
+                line = gene.readline()
+
+                # While we're not at the end of the sequence
+                while line != '\n':
+
+                    # Append the line of subsequence without
+                    # the '\n' at the end
+                    if line[-1] == '\n':
+                        sequences[seq_i] += line[:-1]
+                    else:
+                        sequences[seq_i] += line
+
+                    line = gene.readline()
+                
+                # line = '\n' so we move to next line
+                # which will start with '>'
+                line = gene.readline()
+
+                seq_i += 1
+    except:
+        print('Something went wrong')
+
+    return sequences
