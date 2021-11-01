@@ -181,11 +181,10 @@ def main():
     inputFiles = inputFiles.split() #Split the input into a list with ' ' as the delimiter.
 
     gene = getSequences(inputFiles[0])
-#    otherSequences = getAllSeq(inputFiles[1])
-    distances = findDistances(gene, getAllSeq(inputFiles[1]))
-    repTranscriptNumber = getRepFromDistances(distances)
+    distances = findDistances(gene, getSequences(inputFiles[1]))
+    repTranscriptNumber = getRepSeqFromDistances(distances)
 
-    print(gene +'\n'+ str(repTranscriptNumber))
+    print(inputFiles[0] +'\n'+ str(repTranscriptNumber))
 
 if __name__ == '__main__':
     main()
