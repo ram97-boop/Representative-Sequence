@@ -3,8 +3,7 @@
 from Bio import pairwise2 as pw
 
 class ScoreMatrix:
-    def __init__(self, gene, cols, rows):
-        self.gene = gene
+    def __init__(self, cols, rows):
         self.cols = cols
         self.rows = rows
         self.matrix = self.createMatrix(self.cols)
@@ -53,20 +52,27 @@ def findDistances(gene, otherSequences):
     between gene's sequences and otherSequences sequences.
     '''
     distances = ScoreMatrix(len(gene), len(otherSequences))
-    seq_i = 0 #The index of gene's sequences in the matrix distances.
 
+    seq_i = 0 #The index of gene's sequences in the matrix distances.
     for seq1 in gene:
-        differences = 0
         for seq2 in otherSequences:
+            differences = 0
             
             i = 0
             while i < min([len(seq1), len(seq2)]): #This loop will iterate up to the length of the shorter sequence.
                 if seq1[i] != seq2[i]:
                     differences += 1
+#                    print(str(seq1[i])+ ' ' + str(seq2[i]) + ' ' + str(differences))
 
                 i+=1
         
             differences += abs(len(seq1) - len(seq2)) #Add in the difference in length
+            distances.matrix[seq_i].append(differences) #Store the distances between seq1 and all seq2's of otherSequences.
+#            print('differences between ' +seq1 + ' and ' + seq2 +': ' + str(differences))
+
+        seq_i += 1
+
+    return distances.matrix
 
 def getSequences(geneFile):
     '''
