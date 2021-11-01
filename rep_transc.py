@@ -41,7 +41,7 @@ def findScores(gene, otherSequences):
 
         seq_i+=1
 
-    return scores
+    return scores.matrix
 
 def findDistances(gene, otherSequences):
     '''
@@ -97,7 +97,7 @@ def getSequences(geneFile):
                     # Append the line (subsequence), without
                     # the '\n' character at the end, to the
                     # sequence in sequences[seq_i]
-                    if line[-1] == '\n':
+                    if line[-1] == '\n': #Note: Python sees '\n' as one character.
                         sequences[seq_i] += line[:-1]
                     else:
                         sequences[seq_i] += line
@@ -115,6 +115,7 @@ def getSequences(geneFile):
     except:
         print('Something went wrong')
 
+    gene.close()
     return sequences
 
 def getAllSeq(f):
@@ -175,3 +176,16 @@ def getRepSeqFromDistances(distanceMatrix):
 
     return min_i
 
+def main():
+    inputFiles = input() #Will take in a gene file and a file of all the other sequences.
+    inputFiles = inputFiles.split() #Split the input into a list with ' ' as the delimiter.
+
+    gene = getSequences(inputFiles[0])
+#    otherSequences = getAllSeq(inputFiles[1])
+    distances = findDistances(gene, getAllSeq(inputFiles[1]))
+    repTranscriptNumber = getRepFromDistances(distances)
+
+    print(gene +'\n'+ str(repTranscriptNumber))
+
+if __name__ == '__main__':
+    main()
