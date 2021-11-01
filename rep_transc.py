@@ -131,7 +131,7 @@ def getAllSeq(f):
 
     return sequences
 
-def getRepSeq(scoreMatrix):
+def getRepSeqFromScores(scoreMatrix):
     '''
     Returns the number (place) where the representative
     sequence is in its gene file.
@@ -151,3 +151,27 @@ def getRepSeq(scoreMatrix):
         i+=1
 
     return max_i
+
+def getRepSeqFromDistances(distanceMatrix):
+    '''
+    Returns the number (place) where the representative
+    sequence is in its gene file.
+    '''
+    distanceSum = []
+    for seqDistances in distanceMatrix:
+        # Sum all the distances of the sequence
+        # and put it in distanceSum
+        distanceSum.append(sum(seqDistances))
+
+    print(distanceSum)
+
+    # Get the index of scoreSum with the minimum sum
+    min_i = 0
+    i = 0
+    while i < len(distanceSum):
+        if distanceSum[i] < distanceSum[min_i]:
+            min_i = i
+        i+=1
+
+    return min_i
+
