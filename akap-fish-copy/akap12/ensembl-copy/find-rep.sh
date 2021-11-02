@@ -24,6 +24,7 @@
 # E.g. rep_transc returns 2 (2nd transcript is rep.)
 rep_seq=$(echo "$1" "$2" | python3 rep_transc.py)
 
+############ ERROR here ###############
 # Stores the line numbers of the id line of the representative transcript
 # and the id line of the transcript under it in tmp.txt
 grep -n peptide "$1" | head -n $(expr $rep_seq + 1) | tail -n 2 | cut -d : -f 1 > tmp.txt 
