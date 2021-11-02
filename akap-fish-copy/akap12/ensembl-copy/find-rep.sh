@@ -22,14 +22,14 @@
 ### NEWEST ###
 
 # E.g. rep_transc returns 2 (2nd transcript is rep.)
-$rep_seq=2
+rep_seq=$(echo "$1" "$2" | python3 rep_transc.py)
 
 # Stores the line numbers of the id line of the representative transcript
 # and the id line of the transcript under it in tmp.txt
-grep -n peptide gene_file | head -n $(expr $rep_seq + 1) | tail -n 2 | cut -d : -f 1 > tmp.txt 
+grep -n peptide "$1" | head -n $(expr $rep_seq + 1) | tail -n 2 | cut -d : -f 1 > tmp.txt 
 
 # Store the line numbers in these variables and then delete tmp.txt
-rep_seq_id_line=$(head -n 1) && next_seq_id_line=$(tail -n 1) && rm tmp.txt 
+rep_seq_id_line=$(head -n 1 tmp.txt) && next_seq_id_line=$(tail -n 1 tmp.txt) && rm tmp.txt 
 
 # Retrieve the id line and the transcript of the representative transcript.
-head -n $(expr $next_seq_id_line - 1) gene_file | tail -n $(expr $next_seq_id_line - $rep_seq_id_line)
+head -n $(expr $next_seq_id_line - 1) "$1" | tail -n $(expr $next_seq_id_line - $rep_seq_id_line)
