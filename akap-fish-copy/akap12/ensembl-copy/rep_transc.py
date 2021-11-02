@@ -191,7 +191,7 @@ def main():
     distances = findDistances(gene, getSequences(inputFiles[1]))
     repTranscriptNumber = getRepSeqFromDistances(distances)
 
-    print(str(repTranscriptNumber))
+    print(str(repTranscriptNumber + 1)) # Print the number (placement) of the representative transcript in the gene file.
 
 if __name__ == '__main__':
     main()
