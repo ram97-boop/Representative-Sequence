@@ -125,7 +125,9 @@ def getSequences(geneFile):
 def getAllSeq(f):
     '''
     Returns a list of all the sequences in all
-    the gene files with their file names in f.
+    the gene files listede in the file f (the
+    gene files should be in the same
+    directory as f).
     '''
     fileOfGenes = open(f, 'r')
     sequences = []
@@ -141,7 +143,9 @@ def getAllSeq(f):
 def getRepSeqFromScores(scoreMatrix):
     '''
     Returns the number (place) where the representative
-    sequence is in its gene file.
+    sequence is in its gene file. So if, for example,
+    the 4th sequence is the representative in a file of
+    5 sequences, then 4 will be returned.
     '''
     scoreSum = []
     for seqScores in scoreMatrix:
@@ -162,7 +166,9 @@ def getRepSeqFromScores(scoreMatrix):
 def getRepSeqFromDistances(distanceMatrix):
     '''
     Returns the number (place) where the representative
-    sequence is in its gene file.
+    sequence is in its gene file. So if, for example,
+    the 4th sequence is the representative in a file of
+    5 sequences, then 4 will be returned.
     '''
     distanceSum = []
     for seqDistances in distanceMatrix:
@@ -183,15 +189,23 @@ def getRepSeqFromDistances(distanceMatrix):
     return min_i
 
 def main():
+    '''
+    Takes two files as input:
+    file1: a gene containing sequences, which are its alternative transcripts.
+    file2: all the sequences of all the other genes.
+
+    Returns the number (placement) of the suggested representative sequence of the
+    gene in file1.
+    '''
     inputFiles = input() #Will take in a gene file and a file of all the other sequences.
     inputFiles = inputFiles.split() #Split the input into a list with ' ' as the delimiter.
 
     gene = getSequences(inputFiles[0])
 #    otherSequences = getAllSeq(inputFiles[1])
     distances = findDistances(gene, getSequences(inputFiles[1]))
-    repTranscriptNumber = getRepSeqFromDistances(distances)
+    repSeqNumber = getRepSeqFromDistances(distances)
 
-    print(str(repTranscriptNumber + 1)) # Print the number (placement) of the representative transcript in the gene file.
+    print(str(repSeqNumber + 1)) # Print the number (placement) of the representative sequence in the gene file.
 
 if __name__ == '__main__':
     main()
