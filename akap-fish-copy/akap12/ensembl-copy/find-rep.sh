@@ -24,16 +24,15 @@
 # Run the python script with two files as input.
 rep_seq=$(echo "$1" "$2" | python3 rep_transc.py)
 
-############ ERROR here ###############
-# Stores the line numbers of the id line of the representative transcript
-# and the id line of the transcript under it in tmp.txt
+# Store the id lines (and their line numbers) of the sequences in seq_info.txt
 grep -n peptide "$1" > seq_info.txt &&
-nr_of_seq=$(cat seq_info.txt | wc -l) &&
-	if [ $rep_seq == $nr_of_seq ] # If the last transcript is the representative.
+	if [ $rep_seq == $(cat seq_info.txt | wc -l) ] # If the last transcript is the representative.
 		then
 			# Retrieve the last sequence of "$1" together with its id line.
 			tail -n $(expr $(cat "$1" | wc -l) - $(expr $(tail -n 1 seq_info.txt | cut -d : -f 1) - 1)) "$1" 
 	else	
+		# Store the line numbers of the id line of the representative
+		# transcript and the transcript under it in tmp.txt
 		head -n $(expr $rep_seq + 1) seq_info.txt |
 		tail -n 2 |
 		cut -d : -f 1 > tmp.txt 
