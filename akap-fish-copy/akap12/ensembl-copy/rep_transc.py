@@ -16,7 +16,7 @@ class ScoreMatrix:
         return matrix
 
 class Gene(ScoreMatrix):
-    def __init__(self, idNumber, sequences, otherSequences):
+    def __init__(self, idNumber, sequences):
         self.idNumber = idNumber
         self.sequences = sequences
         super().__init__(len(sequences)) # Can get the matrix by geneObject.matrix
@@ -97,7 +97,7 @@ def getSequences(geneFile):
         while line != '': #While we're not at the end of the file
             if line[0] == '>': #If we're at the identifier line of a sequence
 
-                sequences.append('') #Add a placeholder for the sequence in the list sequences
+                sequences.append('') #Add a placeholder element for the sequence in the list sequences
                 
                 line = gene.readline() #Go to the next line, which is the start of the sequence
 
@@ -202,8 +202,8 @@ def main():
     Returns the number (placement) of the suggested representative sequence of the
     gene in file1.
     '''
-    inputFiles = input() #Will take in a gene file and a file of all the other sequences.
-    inputFiles = inputFiles.split() #Split the input into a list with ' ' as the delimiter.
+#    inputFiles = input() #Will take in a gene file and a file of all the other sequences.
+#    inputFiles = inputFiles.split() #Split the input into a list with ' ' as the delimiter.
 
 #    gene = getSequences(inputFiles[0])
 #    otherSequences = getAllSeq(inputFiles[1])
@@ -211,13 +211,34 @@ def main():
 #    distances = findDistances(getSequences(inputFiles[0]), getSequences(inputFiles[1]))
 #    repSeqNumber = getRepSeqFromDistances(distances)
 
-    scores = findScores(getSequences(inputFiles[0]), getSequences(inputFiles[1]))
-    repSeqNumber = getRepSeqFromScores(scores)
+#    scores = findScores(getSequences(inputFiles[0]), getSequences(inputFiles[1]))
+#    repSeqNumber = getRepSeqFromScores(scores)
 
-    print(str(repSeqNumber + 1)) # Print the number (placement) of the representative sequence in the gene file.
+#    print(str(repSeqNumber + 1)) # Print the number (placement) of the representative sequence in the gene file.
 
-#if __name__ == '__main__':
-#    main()
+    #----------21-11-07---------- 
+    # Dynamic programming(?)
+    inputFile = input() # Should take in a file of filenames of all genes in the same directory as this python script.
+    geneFilenames = open(inputFile, 'r')
+
+    # This will contain Gene objects
+    listOfGenes = []
+
+    # Assuming the filenames in geneFilenames are sorted in the same way as the actual files are sorted in the directory.
+    i = 0
+    for gene in geneFilenames:
+        geneSequences = getSequences(gene[:-1]) # Ignoring the '\n' at the end of each line.
+        listOfGenes.append(Gene(i, geneSequences))
+        i+=1
+
+    geneFilenames.close()
+
+    # Test: checking the number of sequences of the 15th gene in the directory
+#    print(len(listOfGenes[14].matrix))
+
+
+if __name__ == '__main__':
+    main()
 
 # Tests
 #gene = getSequences('geneEx.fa')
@@ -226,6 +247,6 @@ def main():
 #print(scores)
 
 # Gene class
-#gene_sequences = getSequences('geneEx.fa')
-#gene_test = Gene(0, gene_sequences, allSequences)
-#print(gene_test.matrix)
+#geneSequences = getSequences('geneEx.fa')
+#geneTest = Gene(0, geneSequences)
+#print(geneTest.matrix)
