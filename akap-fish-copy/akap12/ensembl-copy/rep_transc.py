@@ -125,7 +125,7 @@ def getSequences(geneFile):
 def getAllSeq(f):
     '''
     Returns a list of all the sequences in all
-    the gene files listede in the file f (the
+    the gene files listed in the file f (the
     gene files should be in the same
     directory as f).
     '''
@@ -200,12 +200,22 @@ def main():
     inputFiles = input() #Will take in a gene file and a file of all the other sequences.
     inputFiles = inputFiles.split() #Split the input into a list with ' ' as the delimiter.
 
-    gene = getSequences(inputFiles[0])
+#    gene = getSequences(inputFiles[0])
 #    otherSequences = getAllSeq(inputFiles[1])
-    distances = findDistances(gene, getSequences(inputFiles[1]))
-    repSeqNumber = getRepSeqFromDistances(distances)
+
+#    distances = findDistances(getSequences(inputFiles[0]), getSequences(inputFiles[1]))
+#    repSeqNumber = getRepSeqFromDistances(distances)
+
+    scores = findScores(getSequences(inputFiles[0]), getSequences(inputFiles[1]))
+    repSeqNumber = getRepSeqFromScores(scores)
 
     print(str(repSeqNumber + 1)) # Print the number (placement) of the representative sequence in the gene file.
 
 if __name__ == '__main__':
     main()
+
+# Tests
+#gene = getSequences('geneEx.fa')
+#allSequences = getSequences('all_seq_no_gene.txt')
+#scores = findScores(gene[0], gene[0])
+#print(scores)
