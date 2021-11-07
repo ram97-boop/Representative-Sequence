@@ -3,9 +3,9 @@
 from Bio import pairwise2 as pw
 
 class ScoreMatrix:
-    def __init__(self, cols, rows):
+    def __init__(self, cols):
         self.cols = cols
-        self.rows = rows
+#        self.rows = rows
         self.matrix = self.createMatrix(self.cols)
 
     def createMatrix(self, cols):
@@ -15,6 +15,11 @@ class ScoreMatrix:
 
         return matrix
 
+class Gene(ScoreMatrix):
+    def __init__(self, idNumber, sequences, otherSequences):
+        self.idNumber = idNumber
+        self.sequences = sequences
+        super().__init__(len(sequences)) # Can get the matrix by geneObject.matrix
 
 def findScores(gene, otherSequences):
     '''
@@ -31,7 +36,7 @@ def findScores(gene, otherSequences):
     scores = matrix of alignment scores from gene's
     sequences to all sequences in otherSequences.
     '''
-    scores = ScoreMatrix(len(gene), len(otherSequences))
+    scores = ScoreMatrix(len(gene))
     seq_i = 0
 
     for seq1 in gene:
@@ -51,7 +56,7 @@ def findDistances(gene, otherSequences):
     Returns a ScoreMatrix containing the distances
     between gene's sequences and otherSequences sequences.
     '''
-    distances = ScoreMatrix(len(gene), len(otherSequences))
+    distances = ScoreMatrix(len(gene))
 
     seq_i = 0 #The index of gene's sequences in the matrix distances.
     for seq1 in gene:
@@ -211,11 +216,16 @@ def main():
 
     print(str(repSeqNumber + 1)) # Print the number (placement) of the representative sequence in the gene file.
 
-if __name__ == '__main__':
-    main()
+#if __name__ == '__main__':
+#    main()
 
 # Tests
 #gene = getSequences('geneEx.fa')
 #allSequences = getSequences('all_seq_no_gene.txt')
 #scores = findScores(gene[0], gene[0])
 #print(scores)
+
+# Gene class
+#gene_sequences = getSequences('geneEx.fa')
+#gene_test = Gene(0, gene_sequences, allSequences)
+#print(gene_test.matrix)
