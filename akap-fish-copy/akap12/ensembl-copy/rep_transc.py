@@ -233,6 +233,17 @@ def main():
 
     geneFilenames.close()
 
+    # For each Gene we align its sequences to the other
+    # Genes, and then store the score in its matrices.
+    # At the same time, for each of the other genes, we
+    # store the score between their sequences and this
+    # gene's sequences. After a gene has been iterated we
+    # don't include it in the alignments to be done for the
+    # rest of the genes as its alignment has already been
+    # done with them and the scores stored in both their
+    # matrices.
+
+
     # Test: checking the number of sequences of the 15th gene in the directory
 #    print(len(listOfGenes[14].matrix))
 
