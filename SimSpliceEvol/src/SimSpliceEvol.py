@@ -1006,24 +1006,24 @@ def readTreeFromFile(path):
 
 
 def main(gain, dup, lost, iteration, arg):
-	k  = arg.k_nb_exons
-	k1 = arg.k_ei_c
-	k2 = arg.k_ei_c
-	k3 = arg.k_t_c
+	k  = float(arg.k_nb_exons)
+	k1 = float(arg.k_ei_c)
+	k2 = float(arg.k_ei_c)
+	k3 = float(arg.k_t_c)
 
 	number_max_exon_transcript = 0
 	number_max_exon_gene = 0
-	prob_deletion = arg.k_indel
-	prob_insertion = arg.k_indel
+	prob_deletion = float(arg.k_indel)
+	prob_insertion = float(arg.k_indel)
 	
-	tc6 = arg.random_selection
-	tc5 = arg.alternative_five_prime
-	tc3 = arg.alternative_three_prime
-	tcsk = arg.exon_skipping
-	tcme = arg.mutually_exclusive
-	tcir = arg.intron_retention
-	tctl = arg.transcript_loss
-	k_intron = arg.k_intron
+	tc6 = float(arg.random_selection)
+	tc5 = float(arg.alternative_five_prime)
+	tc3 = float(arg.alternative_three_prime)
+	tcsk = float(arg.exon_skipping)
+	tcme = float(arg.mutually_exclusive)
+	tcir = float(arg.intron_retention)
+	tctl = float(arg.transcript_loss)
+	k_intron = float(arg.k_intron)
 
 	guideTreeFile = arg.input_tree_file
 
