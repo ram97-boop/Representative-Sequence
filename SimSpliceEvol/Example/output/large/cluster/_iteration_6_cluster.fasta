@@ -5,6 +5,4 @@ cds_0_mdom
 >cluster3 :
 cds_0_mmus
 >cluster4 :
-cds_0_hsap
->cluster5 :
-cds_0_btaus
+cds_0_hsap, cds_0_btaus
