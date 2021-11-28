@@ -1,8 +1,8 @@
 >cluster1 :
-cds_0_ggal
+cds_0_ggal, cds_0_mmus
 >cluster2 :
 cds_0_mdom
 >cluster3 :
-cds_0_mmus
+cds_0_hsap
 >cluster4 :
-cds_0_hsap, cds_0_btaus
+cds_0_btaus
