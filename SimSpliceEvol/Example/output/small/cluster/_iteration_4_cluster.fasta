@@ -1,10 +1,4 @@
 >cluster1 :
-cds_0_ppan
+cds_0_ppan, cds_0_ptro, cds_0_ggor, cds_0_pabe
 >cluster2 :
-cds_0_ptro
->cluster3 :
 cds_0_hsap
->cluster4 :
-cds_0_ggor
->cluster5 :
-cds_0_pabe
