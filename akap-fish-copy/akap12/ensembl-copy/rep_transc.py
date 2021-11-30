@@ -256,6 +256,8 @@ def main():
     # genes they're being aligned with (during their 
     # iteration).
     
+    repSeqNrList = []
+    
     # Each iteration of this while-loop will find the representative sequence of a gene
     while len(listOfGenes) > 1:
         gene = listOfGenes[0] # get the 1st gene from this list
@@ -293,12 +295,20 @@ def main():
                 print("A gene has less than 1 sequence?")
                 
         print(getRepSeqFromScores(gene.matrix))
+        repSeqNrList.append(getRepSeqFromScores(gene.matrix))
         
         # print(listOfGenes[0].matrix)
         
     # Get the representative transcript of the one leftover gene in
     # listOfGenes.
     print(getRepSeqFromScores(listOfGenes[0].matrix))
+    repSeqNrList.append(getRepSeqFromScores(listOfGenes[0].matrix))
+    
+    outputFile = open("output.txt", "w")
+    n = 0
+    geneFilenames2 = open(inputFile, "r")
+    for gene in geneFilenames2:
+        outputFile.write(gene[:-1] + "\n" + str(repSeqNrList[n]) + "\n")
 
     ### Tests
 
