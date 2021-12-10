@@ -18,6 +18,7 @@ class ScoreMatrix:
 
         return matrix
 
+
 class Gene(ScoreMatrix):
     '''
     Inherits ScoreMatrix so it has the matrix attribute.
@@ -28,6 +29,7 @@ class Gene(ScoreMatrix):
         self.idNumber = idNumber
         self.sequences = sequences
         super().__init__(len(sequences)) # Can get the matrix by GeneObject.matrix
+
 
 def findScores(gene, otherSequences):
     '''
@@ -56,41 +58,6 @@ def findScores(gene, otherSequences):
 
     return scores.matrix
 
-
-def findDistances(gene, otherSequences):
-    '''
-    Calculate the edit distances from gene's sequences
-    to the sequences in otherSequences.
-
-    Returns a ScoreMatrix containing the distances
-    between gene's sequences and otherSequences sequences.
-    '''
-    distances = ScoreMatrix(len(gene))
-
-    seq_i = 0 #The index of gene's sequences in the matrix distances.
-    for seq1 in gene:
-#        seq2_i = 0
-        for seq2 in otherSequences:
-            differences = 0
-            
-            i = 0
-            while i < min([len(seq1), len(seq2)]): #This loop will iterate up to the length of the shorter sequence.
-                if seq1[i] != seq2[i]:
-                    differences += 1
-#                    print(str(seq1[i])+ ' ' + str(seq2[i]) + ' ' + str(differences))
-
-                i+=1
-        
-            differences += abs(len(seq1) - len(seq2)) #Add in the difference in length
-            distances.matrix[seq_i].append(differences) #Store the distances between seq1 and all seq2's of otherSequences.
-#            print('differences between ' +seq1 + ' and ' + seq2 +': ' + str(differences))
-
-#            seq2_i+=1
-#            print(seq2_i)
-
-        seq_i += 1
-
-    return distances.matrix
 
 def getSequences(geneFile):
     '''
@@ -136,22 +103,21 @@ def getSequences(geneFile):
     gene.close()
     return sequences
 
+
 def getAllSeq(f):
     '''
     Returns a list of all the sequences in all
-    the gene files listed in the file f (the
-    gene files should be in the same
-    directory as f).
+    the gene files listed in the file f.
     '''
-    fileOfGenes = open(f, 'r')
+    geneFileNames = open(f, 'r')
     sequences = []
 
-    geneFile = fileOfGenes.readline()
-    while geneFile != '': #While we're not at the end of fileOfGenes
-        sequences += getSequences(geneFile)
-        geneFile = fileOfGenes.readline()
+    geneFile = geneFileNames.readline()
+    while geneFile != '': #While we're not at the end of geneFileNames
+        sequences += getSequences(geneFile[:-1])
+        geneFile = geneFileNames.readline()
 
-    fileOfGenes.close()
+    geneFileNames.close()
     return sequences
 
 def getRepSeqFromScores(scoreMatrix):
@@ -177,36 +143,12 @@ def getRepSeqFromScores(scoreMatrix):
 
     return max_i
 
-def getRepSeqFromDistances(distanceMatrix):
-    '''
-    Returns the number (place) where the representative
-    sequence is in its gene file. So if, for example,
-    the 4th sequence is the representative in a file of
-    5 sequences, then 4 will be returned.
-    '''
-    distanceSum = []
-    for seqDistances in distanceMatrix:
-        # Sum all the distances of the sequence
-        # and put it in distanceSum
-        distanceSum.append(sum(seqDistances))
-
-#    print(distanceSum)
-
-    # Get the index of scoreSum with the minimum sum
-    min_i = 0
-    i = 0
-    while i < len(distanceSum):
-        if distanceSum[i] < distanceSum[min_i]:
-            min_i = i
-        i+=1
-
-    return min_i
 
 def main():
     '''
     '''
     # Dynamic programming(?)
-    inputFile = input() # Should take in a file of filenames of all genes in the same directory as this python file.
+    inputFile = input() # Should take in a file of filenames of the genes in the same directory as this python file.
     geneFilenames = open(inputFile, 'r')
 
     # This will contain the Gene objects (for all genes).
@@ -301,6 +243,9 @@ def main():
     for gene in geneFilenames2:
         outputFile.write(gene[:-1] + "\n" + str(repSeqNrList[n]) + "\n")
 
+    outputFile.close()
+
+
     ### Tests
 
     # Checking the number of sequences of the 15th gene in the current directory
@@ -310,13 +255,15 @@ def main():
 if __name__ == '__main__':
     main()
 
-# Tests
+
+##### Tests
+
 #gene = getSequences('geneEx.fa')
 #allSequences = getSequences('all_seq_no_gene.txt')
 #scores = findScores(gene[0], gene[0])
 #print(scores)
 
-# Gene class
+# Gene class #
 #geneSequences = getSequences('geneEx.fa')
 #geneTest = Gene(0, geneSequences)
 #print(geneTest.matrix)
