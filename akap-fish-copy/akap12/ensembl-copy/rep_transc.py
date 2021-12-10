@@ -204,33 +204,12 @@ def getRepSeqFromDistances(distanceMatrix):
 
 def main():
     '''
-    Takes two files as input:
-    file1: a gene containing sequences, which are its alternative transcripts.
-    file2: all the sequences of all the other genes.
-
-    Returns the number (placement) of the suggested representative sequence of the
-    gene in file1.
     '''
-#    inputFiles = input() #Will take in a gene file and a file of all the other sequences.
-#    inputFiles = inputFiles.split() #Split the input into a list with ' ' as the delimiter.
-
-#    gene = getSequences(inputFiles[0])
-#    otherSequences = getAllSeq(inputFiles[1])
-
-#    distances = findDistances(getSequences(inputFiles[0]), getSequences(inputFiles[1]))
-#    repSeqNumber = getRepSeqFromDistances(distances)
-
-#    scores = findScores(getSequences(inputFiles[0]), getSequences(inputFiles[1]))
-#    repSeqNumber = getRepSeqFromScores(scores)
-
-#    print(str(repSeqNumber + 1)) # Print the number (placement) of the representative sequence in the gene file.
-
-    #----------21-11-07---------- 
     # Dynamic programming(?)
-    inputFile = input() # Should take in a file of filenames of all genes in the same directory as this python script.
+    inputFile = input() # Should take in a file of filenames of all genes in the same directory as this python file.
     geneFilenames = open(inputFile, 'r')
 
-    # This will contain Gene objects (for all genes)
+    # This will contain the Gene objects (for all genes).
     listOfGenes = []
 
     # Assuming the filenames in geneFilenames are sorted in the same way as the actual files are sorted in the directory.
@@ -242,36 +221,36 @@ def main():
 
     geneFilenames.close()
 
-    # For each Gene we align its sequences to the other
-    # Genes, and then store the score in its matrices.
+    # For each gene, we align its sequences to the other
+    # genes, and then store the score in its matrix.
     # At the same time, for each of the other genes, we
     # store the score between their sequences and this
-    # gene's sequences. After a gene has been iterated we
-    # don't include it in the alignments to be done for the
-    # rest of the genes as its alignment has already been
-    # done with them and the scores stored in both their
-    # matrices.
-    # For genes with only one sequence we don't store the
-    # scores in their matrices, only in matrices of the
-    # genes they're being aligned with (during their 
-    # iteration).
+    # gene's sequences in their respective matrices. After 
+    # a gene has been iterated on we don't include it in
+    # the coming alignments to be done for the rest of the
+    # genes during the next iterations as its alignment
+    # has already been done with them and the scores
+    # stored in both their matrices. For genes with only
+    # one sequence we store the scores only in the
+    # matrices of the genes they're being aligned with
+    # (only when they're being iterated on).
     
-    repSeqNrList = []
+    repSeqNrList = [] # Representative sequence number list.
     
     # Each iteration of this while-loop will find the representative sequence of a gene
-    while len(listOfGenes) > 1:
+    while len(listOfGenes) > 1: # While listOfGenes has more than 1 gene.
         gene = listOfGenes[0] # get the 1st gene from this list
-        listOfGenes = listOfGenes[1:] # Remove gene from this list.
+        listOfGenes = listOfGenes[1:] # Remove gene from the list.
         
-        # Constructing the scoreMatrix for gene.
+        # Constructing the ScoreMatrix for gene
         # And storing the scores of the alignments between gene and the rest in
         # listOfGenes in their respective matrices.
         for gene2 in listOfGenes:
             scores = findScores(gene.sequences, gene2.sequences)
             # An example:
-            # scores = [[11,20,35,1],[20,11,10,34],[7,14,36,2]]
-            # should be stored in gene2's matrix like so:
-            # gene2_scores = [[11,20,7],[20,11,14],[35,10,36],[1,34,2]]
+            # gene's scores = [[11,20,35,1],[20,11,10,34],[7,14,36,2]]
+            # should be stored in gene2's score matrix like so:
+            # [[11,20,7],[20,11,14],[35,10,36],[1,34,2]]
             
             # If gene has more than 1 sequence.
             if len(gene.sequences) > 1:
@@ -279,8 +258,8 @@ def main():
                 for i in range(len(scores)):
                     gene.matrix[i]+=scores[i] 
                 
-                    for j in range(len(scores[0])): # len of gene2's matrix (nr of sequences).
-                        # Storing the scores in gene2's matrix
+                    # Storing the scores in gene2's matrix.
+                    for j in range(len(scores[0])): # length of gene2's matrix (nr of sequences).
                         gene2.matrix[j].append(scores[i][j])
                 
             # If gene only has 1 sequence.
@@ -290,20 +269,32 @@ def main():
                     for j in range(len(scores[0])):
                         gene2.matrix[j].append(scores[i][j])
             
-            # For some case(s) we can't currently foresee.
+            # For some case(s) we can't maybe haven't foreseen.
             else:
                 print("A gene has less than 1 sequence?")
                 
-        print(getRepSeqFromScores(gene.matrix))
-        repSeqNrList.append(getRepSeqFromScores(gene.matrix))
+
+        representativeSequence = getRepSeqFromScores(gene.matrix)
+
+        # Prints the representative sequence of gene.
+        # E.g. if the first sequence is the representative
+        # then '0' will be printed (0-indexed).
+        print(representativeSequence) 
+
+        # Store the representative sequence of each gene in
+        # this list.
+        repSeqNrList.append(representativeSequence)
         
         # print(listOfGenes[0].matrix)
         
     # Get the representative transcript of the one leftover gene in
     # listOfGenes.
     print(getRepSeqFromScores(listOfGenes[0].matrix))
+
+    # Store the place of the representative sequence in this list.
     repSeqNrList.append(getRepSeqFromScores(listOfGenes[0].matrix))
     
+    # Storing the output.
     outputFile = open("output.txt", "w")
     n = 0
     geneFilenames2 = open(inputFile, "r")
@@ -312,7 +303,7 @@ def main():
 
     ### Tests
 
-    # Checking the number of sequences of the 15th gene in the directory
+    # Checking the number of sequences of the 15th gene in the current directory
 #    print(len(listOfGenes[14].matrix))
 
 

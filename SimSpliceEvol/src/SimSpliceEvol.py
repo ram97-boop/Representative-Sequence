@@ -1175,7 +1175,7 @@ if __name__ == "__main__":
 	
 	n = arg.number_of_simulation
 
-	for i in range(10):
+	for i in range(1):
 		main(cost[0], cost[1], cost[2], "iteration_" + str(cmpt), arg) 
 		cmpt += 1
 
