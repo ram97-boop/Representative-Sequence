@@ -704,6 +704,7 @@ def make_protein_evol(tree, exon_intron_of_genes, resulting_gene_exon, tc5, tc3,
 		elif node.is_leaf():
 			used_cds =  []
 			gene_id = node.name[3]
+			#print(node)
 
 			cds_list[node.name[3]] = {}
 			cds_list_gene = {}
@@ -717,11 +718,13 @@ def make_protein_evol(tree, exon_intron_of_genes, resulting_gene_exon, tc5, tc3,
 					exon_ids.append(e)
 			cds_0 = choice_distint(exon_ids, int(len(exon_ids)-len(exon_ids)/5))
 			
+			#print(cds_0)
 			cds_0 = [e for e in cds_0 if node.name[0][e][0] == 0]
 			used_cds.append(cds_0)
 			#for e in exon
 			cds_list[node.name[3]]["cds_0"] = [cds_0, {}, {}]
 			cds_list_gene["cds_0"] = [cds_0, {}, {}]
+			#print(cds_list[node.name[3]])
 
 			cs = node.dist
 
@@ -847,8 +850,10 @@ def write_datas(leaves, cds_list, exon_intron_of_genes, resulting_gene_exon,intr
 		alignement_pair.write(">" + gene_id + "\n")
 		alignement_pair.write(genes_seq[gene_id] + "\n")
 
+		#print(cds_list)
 		cds_of_this_gene = cds_list[gene_id]
 		for cds_id, cds_infos in cds_of_this_gene.items():
+			#print(cds_of_this_gene.items())
 			cds_datas = {}
 			all_cds_datas[cds_id + "_" +gene_id] = {}
 			cds_seq = ""
