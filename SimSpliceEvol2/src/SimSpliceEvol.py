@@ -407,6 +407,7 @@ def make_substition_evol(tree, exons_dict, codon_distribution, listKeyOrder, k1)
 
 				
 				node.name[2][exon_id] = exon_tmp
+				#print(node.name[2])
 				#print("-------------------------",nb)
 
 	
@@ -1183,7 +1184,10 @@ if __name__ == "__main__":
 	n = arg.number_of_simulation
 
 	for i in range(1):
-		main(cost[0], cost[1], cost[2], "iteration_" + str(cmpt), arg) 
+		cmpt_string = str(cmpt)
+		cmpt_string = (len(str(100)) - len(cmpt_string)) * '0' + cmpt_string
+		print("Simulation " + str(i))
+		main(cost[0], cost[1], cost[2], "iteration_" + str(cmpt_string), arg) 
 		cmpt += 1
 
 

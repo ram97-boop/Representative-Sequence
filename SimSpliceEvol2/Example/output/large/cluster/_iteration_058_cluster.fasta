@@ -1,0 +1,40 @@
+>cluster1 :
+cds_0_ggal
+>cluster2 :
+cds_0_mdom
+>cluster3 :
+cds_0_mmus
+>cluster4 :
+cds_0_hsap
+>cluster5 :
+cds_0_btaus
+>cluster1 :
+cds_1_ggal, cds_1_mdom
+>cluster2 :
+cds_1_mmus
+>cluster3 :
+cds_1_hsap
+>cluster4 :
+cds_1_btaus
+>cluster1 :
+cds_2_ggal
+>cluster2 :
+cds_2_mdom
+>cluster3 :
+cds_2_mmus, cds_2_btaus
+>cluster4 :
+cds_2_hsap
+>cluster1 :
+cds_3_ggal
+>cluster2 :
+cds_3_mdom, cds_3_mmus, cds_3_btaus
+>cluster3 :
+cds_3_hsap
+>cluster1 :
+cds_4_ggal
+>cluster2 :
+cds_4_mdom
+>cluster3 :
+cds_4_mmus, cds_4_btaus
+>cluster4 :
+cds_4_hsap
