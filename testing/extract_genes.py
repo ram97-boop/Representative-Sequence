@@ -37,7 +37,6 @@ def extractGenes(f, genes):
             
         
 def writeGenesToFile(fileList, genes):
-    #>cds_0_ggal
     filePrefix_id = 0
     for gene in fileList:
         fileName = genes[filePrefix_id] + '.fa'
@@ -53,6 +52,8 @@ def writeGenesToFile(fileList, genes):
 
 def main():
     inputString = input() # Will take in the file name and the gene names after.
+                            #e.g. "_iteration_001_cds.fasta ggal mdom mmus"
+                            
     inputList = inputString.split()
     fileList = extractGenes(inputList[0], inputList[1:])
     # print(fileList)
