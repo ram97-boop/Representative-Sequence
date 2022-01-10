@@ -1,5 +1,3 @@
-#testing testing
-
 #n=1
 for geneFile in $(ls _iteration_*_cds.fasta)
 	do
