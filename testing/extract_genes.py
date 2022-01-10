@@ -5,13 +5,13 @@ def extractGenes(f, genes):
     # print(f)
     # print(genes)
     
-    fileList = [] #list of the genes in the input file.
+    geneList = [] #list of the genes in the input file.
     
     for gene in genes:
         
         cdsFile = open(f, 'r')
         line = cdsFile.readline()
-        geneDictionary = {}
+        geneDictionary = {} #dictionary of gene's alternative transcripts.
         
         while line != '': #while we're not at the end of the file.
         
@@ -29,17 +29,17 @@ def extractGenes(f, genes):
                 
             line = cdsFile.readline()
             
-        fileList.append(geneDictionary)
+        geneList.append(geneDictionary)
                 
         cdsFile.close()
     
-    return fileList
+    return geneList
             
         
-def writeGenesToFile(fileList, genes):
+def writeGenesToFile(geneList, genes, path):
     filePrefix_id = 0
-    for gene in fileList:
-        fileName = genes[filePrefix_id] + '.fa'
+    for gene in geneList:
+        fileName = path + genes[filePrefix_id] + '.fa'
         file = open(fileName, 'w')
         
         for transcript_id, transcript in gene.items():
@@ -51,14 +51,15 @@ def writeGenesToFile(fileList, genes):
 
 
 def main():
-    inputString = input() # Will take in the file name and the gene names after.
-                            #e.g. "_iteration_001_cds.fasta ggal mdom mmus"
+    inputString = input() # Will take in the file-name and the gene-names after.
+                            #e.g. "large/_iteration_001_cds/_iteration_001_cds.fasta ggal mdom mmus"
                             
     inputList = inputString.split()
-    fileList = extractGenes(inputList[0], inputList[1:])
-    # print(fileList)
+    geneList = extractGenes(inputList[0], inputList[1:])
+    # print(geneList)
     
-    writeGenesToFile(fileList, inputList[1:])
+    path = inputList[0][:-24]
+    writeGenesToFile(geneList, inputList[1:], path)
     
     # file = open('_iteration_001_cds.fasta', 'r')
     # ls = []
