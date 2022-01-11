@@ -271,7 +271,21 @@ def fillScoreMatrices(geneList):
         
         for otherGene in geneList:
             scores = findScores(list(gene.sequences.values()), list(otherGene.sequences.values()))
-            
+
+            if len(gene.sequences) > 1: #if gene has more than 1 sequence.
+                #store the scores in gene's matrix.
+                for i in range(len(scores)):
+                    gene.matrix[i] += scores[i]
+                    
+                    #store the scores in otherGene's matrix.
+                    for j in range(len(scores[0])): #length of otherGene's matrix (number of sequences).
+                        otherGene.matrix[j].append(scores[i][j])
+                
+            else: #if gene has only 1 sequence.
+                #only store the scores in otherGene's matrix.
+                for i in range(len(scores)):
+                    for j in range(len(scores[0])):
+                        otherGene.matrix[j].append(scores[i][j])
             
 
 def main2():
@@ -285,14 +299,16 @@ def main2():
         transcripts = makeGeneDictionary(getSequences(gene))
         geneList.append(Gene(gene, transcripts))
         
+    fillScoreMatrices(geneList)
+    
     
         
     # print(transcripts)
 
 
-if __name__ == '__main__':
+# if __name__ == '__main__':
     # main()
-    main2()
+    # main2()
 
 
 ##### Tests
