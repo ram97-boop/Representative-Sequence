@@ -23,10 +23,10 @@ class Gene(ScoreMatrix):
     '''
     Inherits ScoreMatrix so it has the matrix attribute.
     
-    sequences is a list of the gene's alternative sequences.
+    sequences is a dictionary of the gene's alternative sequences.
     '''
-    def __init__(self, idNumber, sequences):
-        self.idNumber = idNumber
+    def __init__(self, name, sequences):
+        self.name = name
         self.sequences = sequences
         super().__init__(len(sequences)) # Can get the matrix by GeneObject.matrix
 
@@ -43,7 +43,7 @@ def findScores(gene, otherSequences):
     otherSequences (list) = list of all the other sequences.
 
     Output:
-    scores = matrix of alignment scores from gene's
+    scores.matrix (list) = matrix of alignment scores from gene's
     sequences to all sequences in otherSequences.
     '''
     scores = ScoreMatrix(len(gene))
@@ -73,11 +73,13 @@ def getSequences(geneFile):
         while line != '': #While we're not at the end of the file
             if line[0] == '>': #If we're at the identifier line of a sequence
 
-                sequences.append('') #Add a placeholder element for the sequence in the list sequences
+                # sequences.append('') #Add a placeholder element for the sequence in the list sequences
+                sequences.append(line)
                 
                 line = gene.readline() #Go to the next line, which is the start of the sequence
 
-                while line != '\n': #While we're not at the end of the sequence
+                # while line != '\n': #While we're not at the end of the sequence
+                while line[0] != '>': #While we're not at the beginning of the next sequence.
 
                     # Append the line (subsequence), without
                     # the '\n' character at the end, to the
@@ -94,11 +96,12 @@ def getSequences(geneFile):
                 # either start with '>' and is the identifier
                 # line for the next sequence, or it will be
                 # '' which is the end of the file.
-                line = gene.readline()
+                # line = gene.readline()
 
                 seq_i += 1
-    except:
-        print('Something went wrong')
+    except IndexError as e:
+        # print(e)
+        pass
 
     gene.close()
     return sequences
@@ -251,9 +254,45 @@ def main():
     # Checking the number of sequences of the 15th gene in the current directory
 #    print(len(listOfGenes[14].matrix))
 
+def makeGeneDictionary(transcripts):
+    '''
+    A transcript must be e.g. ">cds_0_ggal\nATGCGA..."
+    '''
+    transcriptDict = {}
+    for transcript in transcripts:
+        transcriptDict[transcript[:11]] = transcript[12:]
+        
+    return transcriptDict
+
+def fillScoreMatrices(geneList):
+    while len(geneList) > 1: #while there's more than 1 gene in geneList.
+        gene = geneList[0]
+        geneList = geneList[1:]
+        
+        for otherGene in geneList:
+            scores = findScores(list(gene.sequences.values()), list(otherGene.sequences.values()))
+            
+            
+
+def main2():
+    inputGeneFiles = input() #e.g. "ggal.fa mdom.fa mmus.fa"
+    geneFileList = inputGeneFiles.split()
+    
+    # dictionaryOfGenes = {}
+    geneList = [] #Will hold Gene objects for each gene-input-file.
+    
+    for gene in geneFileList:
+        transcripts = makeGeneDictionary(getSequences(gene))
+        geneList.append(Gene(gene, transcripts))
+        
+    
+        
+    # print(transcripts)
+
 
 if __name__ == '__main__':
-    main()
+    # main()
+    main2()
 
 
 ##### Tests

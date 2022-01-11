@@ -5,4 +5,5 @@ akap-fish/
 SimSpliceEvol2/Example/output/
 testing/*.fa
 testing/clustal-omega-1.2.4/
-
+testing/test.*
+testing/test/
