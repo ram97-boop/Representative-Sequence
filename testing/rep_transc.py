@@ -260,7 +260,7 @@ def makeGeneDictionary(transcripts):
     '''
     transcriptDict = {}
     for transcript in transcripts:
-        transcriptDict[transcript[:11]] = transcript[12:]
+        transcriptDict[transcript[:11]] = transcript[12:] # Storing pairs of transcript ID : transcript.
         
     return transcriptDict
 
@@ -300,15 +300,26 @@ def main2():
         geneList.append(Gene(gene, transcripts))
         
     fillScoreMatrices(geneList)
+
+    representativeTranscript_id = []
+    for gene in geneList:
+        representativeTranscript_id.append(getRepSeqFromScores(gene.matrix))
     
+
+    transcriptFile = open("representativeTranscripts.fa", "w")
+    for i in range(len(geneList)):
+#        print(list(gene.sequences.keys())[representativeTranscript_id[i]] + "\n" + list(gene.sequences.values())[representativeTranscript_id[i]])
+        transcriptFile.write(list(geneList[i].sequences.keys())[representativeTranscript_id[i]] + "\n")
+        transcriptFile.write(list(geneList[i].sequences.values())[representativeTranscript_id[i]] + "\n")
     
+    transcriptFile.close()
         
     # print(transcripts)
 
 
-# if __name__ == '__main__':
+if __name__ == '__main__':
     # main()
-    # main2()
+    main2()
 
 
 ##### Tests
