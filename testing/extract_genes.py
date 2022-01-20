@@ -82,8 +82,6 @@ def main():
                             
     inputList = inputString.split()
     geneList = extractGenes(inputList[0], inputList[1:])
-    # print(geneList)
-    
     path = inputList[0][:-24]
     writeGenesToFile(geneList, inputList[1:], path)
     
@@ -102,5 +100,5 @@ def main2():
     writeGenesToFile(geneList, inputList[1:], "")
     
 if __name__ == "__main__":
-    # main()
-    main2()
+    main()
+    #main2()
