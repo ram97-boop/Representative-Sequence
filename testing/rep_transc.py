@@ -268,6 +268,7 @@ def fillScoreMatrices(geneList):
     while len(geneList) > 1: #while there's more than 1 gene in geneList.
         gene = geneList[0]
         geneList = geneList[1:]
+        print('Aligning and finding scores.')
         
         for otherGene in geneList:
             scores = findScores(list(gene.sequences.values()), list(otherGene.sequences.values()))
@@ -296,6 +297,7 @@ def main2():
     geneList = [] #Will hold Gene objects for each gene-input-file.
     
     for gene in geneFileList:
+        print('Extracting ' + gene + '.')
         transcripts = makeGeneDictionary(getSequences(gene))
         geneList.append(Gene(gene, transcripts))
         
@@ -303,11 +305,13 @@ def main2():
 
     representativeTranscript_id = []
     for gene in geneList:
+        print('Finding representative transcript.')
         representativeTranscript_id.append(getRepSeqFromScores(gene.matrix))
     
 
     transcriptFile = open("representativeTranscripts.fa", "w")
     for i in range(len(geneList)):
+        print("Writing into file.")
 #        print(list(gene.sequences.keys())[representativeTranscript_id[i]] + "\n" + list(gene.sequences.values())[representativeTranscript_id[i]])
         transcriptFile.write(list(geneList[i].sequences.keys())[representativeTranscript_id[i]] + "\n")
         transcriptFile.write(list(geneList[i].sequences.values())[representativeTranscript_id[i]] + "\n")

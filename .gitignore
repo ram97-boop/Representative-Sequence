@@ -7,3 +7,4 @@ testing/*.fa
 testing/clustal-omega-1.2.4/
 testing/test.*
 testing/test/
+testing/alternative_transcripts/
