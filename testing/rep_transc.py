@@ -308,14 +308,13 @@ def findLongestTranscript(gene_transcripts):
     return longest_id
 
 def main2():
-    inputGeneFiles = input() #e.g. "ggal.fa mdom.fa mmus.fa"
-    geneFileList = inputGeneFiles.split()
+    inputLine = input() # Will take in the name of the output file and then the input gene files.
+    inputList = inputLine.split()
+    geneFileList = inputList[1:] #e.g. ".../ggal.fa .../mdom.fa .../mmus.fa .../hsap.fa .../btaus.fa"
     
-    # dictionaryOfGenes = {}
     geneList = [] #Will hold Gene objects for each gene-input-file.
     
     for gene in geneFileList:
-        #print('Extracting ' + gene + '.')
         transcripts = makeGeneDictionary(getSequences(gene))
         geneList.append(Gene(gene, transcripts))
         
@@ -324,22 +323,18 @@ def main2():
     representativeTranscript_id = []
     longestTranscript_id = []
     for gene in geneList:
-        #print('Finding representative transcript.')
         representativeTranscript_id.append(getRepSeqFromScores(gene.matrix))
         longestTranscript_id.append(findLongestTranscript(gene.sequences))
-        print(longestTranscript_id)
+        #print(longestTranscript_id)
     
 
-    transcriptFile = open("representativeTranscripts.fa", "w")
+    transcriptFile = open(inputList[0], 'w')
     for i in range(len(geneList)):
-        #print("Writing into file.")
-#        print(list(gene.sequences.keys())[representativeTranscript_id[i]] + "\n" + list(gene.sequences.values())[representativeTranscript_id[i]])
         transcriptFile.write(list(geneList[i].sequences.keys())[representativeTranscript_id[i]] + "\n")
         transcriptFile.write(list(geneList[i].sequences.values())[representativeTranscript_id[i]] + "\n")
     
     transcriptFile.close()
         
-    # print(transcripts)
 
 
 if __name__ == '__main__':
