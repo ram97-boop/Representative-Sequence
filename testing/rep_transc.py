@@ -50,6 +50,7 @@ def findScores(gene, otherSequences):
     seq_i = 0 # Index of the 1st sequence of gene.
 
     for seq1 in gene:
+        # print(seq_i)
         for seq2 in otherSequences:
             alignment = pw.align.globalxx(seq1, seq2)
             scores.matrix[seq_i].append(alignment[0].score)
@@ -68,7 +69,7 @@ def getSequences(geneFile):
     line = gene.readline()
     sequences = [] #Will contain the sequences of gene.
     try:
-        seq_i=0 #Will be used to index the list sequences.
+        seq_i=0 #Will be used to index the list called 'sequences'.
 
         while line != '': #While we're not at the end of the file
             if line[0] == '>': #If we're at the identifier line of a sequence
@@ -102,6 +103,11 @@ def getSequences(geneFile):
     except IndexError as e:
         # print(e)
         pass
+    
+    # Remove empty transcripts, i.e. a transcript ID with no transcript.
+    for transcript in sequences:
+        if transcript[-1] == '\n':
+            sequences.remove(transcript)
 
     gene.close()
     return sequences
