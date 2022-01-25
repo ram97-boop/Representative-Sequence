@@ -344,11 +344,30 @@ def main2():
     
     transcriptFile.close()
         
+def main3():
+    print("Finding longest transcripts.")
+    inputLine = input()
+    inputList = inputLine.split()
+    geneFileList = inputList[1:]
+    geneList = []
 
+    for gene in geneFileList:
+        transcripts = makeGeneDictionary(getSequences(gene))
+        geneList.append(Gene(gene, transcripts))
+
+    longestTranscripts_ids = []
+    for gene in geneList:
+        longestTranscripts_ids.append(findLongestTranscript(gene.sequences))
+
+    longestTranscriptFile = open(inputList[0], 'w')
+    for i in range(len(geneList)):
+        longestTranscriptFile.write(list(geneList[i].sequences.keys())[longestTranscripts_ids[i]] + "\n")
+        longestTranscriptFile.write(list(geneList[i].sequences.values())[longestTranscripts_ids[i]] + "\n")
 
 if __name__ == '__main__':
     # main()
-    main2()
+    #main2()
+    main3()
 
 
 ##### Tests
