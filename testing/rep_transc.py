@@ -72,7 +72,7 @@ def getSequences(geneFile):
         seq_i=0 #Will be used to index the list called 'sequences'.
 
         while line != '': #While we're not at the end of the file
-            if line[0] == '>': #If we're at the identifier line of a sequence
+            if (line[0] == '>'): #If we're at the identifier line of a sequence
 
                 # sequences.append('') #Add a placeholder element for the sequence in the list sequences
                 sequences.append(line)
@@ -105,9 +105,12 @@ def getSequences(geneFile):
         pass
     
     # Remove empty transcripts, i.e. a transcript ID with no transcript.
-    for transcript in sequences:
-        if transcript[-1] == '\n':
-            sequences.remove(transcript)
+    i = 0
+    while i < len(sequences):
+        if sequences[i][-1] == '\n':
+            sequences = sequences[:i] + sequences[i+1:]
+        else:
+            i+=1
 
     gene.close()
     return sequences
