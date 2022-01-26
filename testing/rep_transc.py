@@ -52,7 +52,7 @@ def findScores(gene, otherSequences):
     for seq1 in gene:
         # print(seq_i)
         for seq2 in otherSequences:
-            alignment = pw.align.globalxx(seq1, seq2)
+            alignment = pw.align.globalms(seq1, seq2, 2, -1, -0.5, -0.1) #match = 2, mismatch = -1, opening gap = -0.5, extending gap = -0.1
             scores.matrix[seq_i].append(alignment[0].score)
 
         seq_i+=1 # Next sequence of gene
@@ -366,8 +366,8 @@ def main3():
 
 if __name__ == '__main__':
     # main()
-    #main2()
-    main3()
+    main2()
+    #main3()
 
 
 ##### Tests
