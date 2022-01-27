@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*- 
 
 from Bio import pairwise2 as pw
+import random
 
 class ScoreMatrix:
     def __init__(self, cols):
@@ -278,7 +279,7 @@ def fillScoreMatrices(geneList):
     while len(geneList) > 1: #while there's more than 1 gene in geneList.
         gene = geneList[0]
         geneList = geneList[1:]
-        print('Aligning and finding scores.')
+        print('Aligning and scoring.')
         
         for otherGene in geneList:
             scores = findScores(list(gene.sequences.values()), list(otherGene.sequences.values()))
@@ -315,6 +316,17 @@ def findLongestTranscript(gene_transcripts):
             longest_id = i
 
     return longest_id
+
+def chooseRandomTranscript(gene_transcripts):
+    '''
+    Input:
+        gene_transcripts: dictionary of the gene's transcripts.
+        
+    Output:
+        the index of a randomly chosen transcript.
+    '''
+    numberOfTranscripts = len(list(gene_transcripts.values()))
+    return random.randint(0, numberOfTranscripts - 1) #randomly choose a number from 0 to (number of transcripts - 1).
 
 def main2():
     inputLine = input() # Will take in the name of the output file and then the input gene files.
@@ -363,11 +375,36 @@ def main3():
     for i in range(len(geneList)):
         longestTranscriptFile.write(list(geneList[i].sequences.keys())[longestTranscripts_ids[i]] + "\n")
         longestTranscriptFile.write(list(geneList[i].sequences.values())[longestTranscripts_ids[i]] + "\n")
+        
+    longestTranscriptFile.close()
+        
+def main4():
+    print("Randomly choosing transcripts.")
+    inputLine = input()
+    inputList = inputLine.split()
+    geneFileList = inputList[1:]
+    geneList = []
+    
+    for gene in geneFileList:
+        transcripts = makeGeneDictionary(getSequences(gene))
+        geneList.append(Gene(gene, transcripts))
+        
+    randomTranscripts_ids = []
+    for gene in geneList:
+        randomTranscripts_ids.append(chooseRandomTranscript(gene.sequences))
+        
+    randomTranscriptFile = open(inputList[0], 'w')
+    for i in range(len(geneList)):
+        randomTranscriptFile.write(list(geneList[i].sequences.keys())[randomTranscripts_ids[i]] + "\n")
+        randomTranscriptFile.write(list(geneList[i].sequences.values())[randomTranscripts_ids[i]] + "\n")
+        
+    randomTranscriptFile.close()
 
 if __name__ == '__main__':
     # main()
-    main2()
+    # main2()
     #main3()
+    main4()
 
 
 ##### Tests
