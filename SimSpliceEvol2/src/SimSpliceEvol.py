@@ -1183,7 +1183,7 @@ if __name__ == "__main__":
 	
 	n = arg.number_of_simulation
 
-	for i in range(1):
+	for i in range(500):
 		cmpt_string = str(cmpt)
 		cmpt_string = (len(str(100)) - len(cmpt_string)) * '0' + cmpt_string
 		print("Simulation " + str(i))
