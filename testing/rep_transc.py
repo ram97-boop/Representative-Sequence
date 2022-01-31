@@ -329,6 +329,7 @@ def chooseRandomTranscript(gene_transcripts):
     return random.randint(0, numberOfTranscripts - 1) #randomly choose a number from 0 to (number of transcripts - 1).
 
 def main2():
+    print("Selecting representative transcripts.")
     inputLine = input() # Will take in the name of the output file and then the input gene files.
     inputList = inputLine.split()
     geneFileList = inputList[1:] #e.g. ".../ggal.fa .../mdom.fa .../mmus.fa .../hsap.fa .../btaus.fa"
@@ -402,9 +403,9 @@ def main4():
 
 if __name__ == '__main__':
     # main()
-    # main2()
+    main2()
     #main3()
-    main4()
+    #main4()
 
 
 ##### Tests
