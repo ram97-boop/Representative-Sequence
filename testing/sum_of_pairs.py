@@ -48,9 +48,11 @@ def scorePair(seq1, seq2):
 def main():
 
     #User input must be the output file name and then the input MSA file.
+    #inputLine = input("Enter the output file name and then the input MSA file: ")
     inputLine = input()
-    inputList = inputLine.split()
-    sequenceDictionary = makeMsaDictionary(inputList[1])
+    #inputList = inputLine.split()
+    #sequenceDictionary = makeMsaDictionary(inputList[1])
+    sequenceDictionary = makeMsaDictionary(inputLine)
     sequenceList = list(sequenceDictionary.values())
 
     #Create a 5x5 matrix full of zeros.
@@ -69,5 +71,3 @@ def main():
     
 if __name__ == "__main__":
     main()
-            
-    
