@@ -88,7 +88,7 @@ def main():
     
     ax.bar(x, y, width=1, edgecolor="white", linewidth=0.7)
     
-    ax.set(xlim=(0.5,5.5), xticks= list(range(1,6)),
+    ax.set(xlim=(0.5,5.5), xticks=list(range(1,6)),
             ylim=(0,220), yticks=np.arange(10,210,10))
     
     plt.xlabel("Number of representative transcripts that are also the longest")
