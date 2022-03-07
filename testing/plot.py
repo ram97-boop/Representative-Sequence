@@ -153,7 +153,7 @@ def getRepLongestLengthDifferenceAverage(directory):
         
     return averageList
 
-def getSopScore(f):
+def getSopScores(f):
     '''
     Get the sum-of-pairs scores from the sop.txt files in the simulations.
 
@@ -203,14 +203,14 @@ def getAverageScoreDifference(directory):
             sopScoreFile = path + "sop.txt"
         
             index = representativeIsLongestAmount(representativesFile, longestFile) - 1
-            sopScores = getSopScore(sopScoreFile)
+            sopScores = getSopScores(sopScoreFile)
             scoreDifference = int(sopScores[0]) - int(sopScores[1])
             
             if scoreDifference < 0:
                 casesList[index].append(scoreDifference*(-1))
                 
         except:
-            continue
+            continue #skip simulations where there is no sop.txt file because all of its representatives are also the longest sequences.
     
     averageList = []
     for i in range(len(casesList)):
@@ -222,9 +222,45 @@ def getAverageScoreDifference(directory):
         
     return averageList
 
+def getAverageScoreDifferenceOverall(directory):
+    '''
+    Get the average difference of sum-of-pairs scores between the
+    representatives' and the longest sequences' respective MSAs of all the
+    simulations in the directory.
+
+    Parameters
+    ----------
+    directory : (str)
+        the name of the simulation directory.
+
+    Returns
+    -------
+    average : (int)
+        The average score difference.
+    '''
+    nrOfSimulations = 500
+    scoreDifferenceList = []
+    
+    for simulationNr in range(1, nrOfSimulations+1):
+        simulationString = (len(str(nrOfSimulations)) - len(str(simulationNr)))*"0" + str(simulationNr)
+        path = directory + "/_iteration_" + simulationString + "_cds/"
+        
+        try:
+            sopScores = getSopScores(path + "sop.txt")
+            scoreDifference = int(sopScores[0]) - int(sopScores[1])
+            
+            if scoreDifference < 0: #if the representatives' MSA scored higher than the longest sequences' MSA.
+                scoreDifferenceList.append(scoreDifference)
+        except:
+            continue #skip simulations where there is no sop.txt file because all of its representatives are also the longest sequences.
+            
+    average = sum(scoreDifferenceList) / len(scoreDifferenceList)
+    return average
+
 
 def main():
-    simulationDirectory = input("Enter the simulation directory: ")
+    # simulationDirectory = input("Enter the simulation directory: ")
+    simulationDirectory = "small"
     
     x = [1,2,3,4,5]
     # y = gatherRepresentativeIsLongestData(simulationDirectory)
@@ -237,12 +273,13 @@ def main():
     ax.bar(x, y, width=1, edgecolor="white", linewidth=0.7)
     
     ax.set(xlim=(0.5,5.5), xticks=list(range(1,6)),
+            # ylim=(0,220), yticks=np.arange(10,200,10))
             ylim=(0,9500), yticks=np.arange(0,9500,1000))
     
     plt.xlabel("Number of representative transcripts that are also the longest")
     # plt.ylabel("Number of simulations")
     # plt.ylabel("Average differences in length between\nthe representatives and the longest sequences")
-    plt.ylabel("Average difference in sum-of-pairs score\nbetween representatives' and the longest sequences'\nrespective multiple sequences alignments")
+    plt.ylabel("Average difference in sum-of-pairs score\nbetween the MSAs of the representatives\nand the longest sequences")
     
     # plt.savefig("plot1.png")
     plt.show()
