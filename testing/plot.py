@@ -206,8 +206,8 @@ def getAverageScoreDifference(directory):
             sopScores = getSopScores(sopScoreFile)
             scoreDifference = int(sopScores[0]) - int(sopScores[1])
             
-            if scoreDifference < 0:
-                casesList[index].append(scoreDifference*(-1))
+            if scoreDifference >= 0:
+                casesList[index].append(scoreDifference*(1))
                 
         except:
             continue #skip simulations where there is no sop.txt file because all of its representatives are also the longest sequences.
@@ -264,8 +264,8 @@ def main():
     
     x = [1,2,3,4,5]
     # y = gatherRepresentativeIsLongestData(simulationDirectory)
-    # y = getRepLongestLengthDifferenceAverage(simulationDirectory)
-    y = getAverageScoreDifference(simulationDirectory)
+    y = getRepLongestLengthDifferenceAverage(simulationDirectory)
+    # y = getAverageScoreDifference(simulationDirectory)
     print(y)
     
     fig, ax = plt.subplots()
@@ -274,12 +274,12 @@ def main():
     
     ax.set(xlim=(0.5,5.5), xticks=list(range(1,6)),
             # ylim=(0,220), yticks=np.arange(10,200,10))
-            ylim=(0,9500), yticks=np.arange(0,9500,1000))
+            ylim=(0,200), yticks=np.arange(0,200,10))
     
-    plt.xlabel("Number of representative transcripts that are also the longest")
+    plt.xlabel("Number of representative sequences that are also the longest")
     # plt.ylabel("Number of simulations")
-    # plt.ylabel("Average differences in length between\nthe representatives and the longest sequences")
-    plt.ylabel("Average difference in sum-of-pairs score\nbetween the MSAs of the representatives\nand the longest sequences")
+    plt.ylabel("Number of symbols")
+    # plt.ylabel("Points")
     
     # plt.savefig("plot1.png")
     plt.show()
