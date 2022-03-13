@@ -131,7 +131,7 @@ def getRepLongestLengthDifferenceAverage(directory):
         A list of the lenght difference averages of the different cases.
     '''
     nrOfSimulations = 500
-    casesList = [[],[],[],[],[]] #5 inner lists for the 5 cases, e.g. one with 1 representative = longest, another with 2 representatives etc.
+    casesList = [[],[],[],[],[]] #5 inner lists for the 5 cases, e.g. one with the 1st is for one representative = longest, the 2nd for two representatives = longest etc.
     
     for simulationNr in range(1, nrOfSimulations+1):
         simulationString = (len(str(nrOfSimulations)) - len(str(simulationNr)))*"0" + str(simulationNr)
@@ -152,6 +152,30 @@ def getRepLongestLengthDifferenceAverage(directory):
             averageList.append(0)
         
     return averageList
+
+def getSeqLengthDiffAvg(directory):
+    nrOfSimulations = 500
+    casesList = [[],[],[],[],[]] #5 inner lists for the 5 cases, e.g. one with the 1st is for one representative = longest, the 2nd for two representatives = longest etc.
+    
+    for simulationNr in range(1, nrOfSimulations+1):
+        simulationString = (len(str(nrOfSimulations)) - len(str(simulationNr)))*"0" + str(simulationNr)
+        path = directory + "/_iteration_" + simulationString + "_cds/"
+        representativesFile = path + "representatives.fa"
+        longestFile = path + "longestTranscripts.fa"
+        casesListIndex = representativeIsLongestAmount(representativesFile, longestFile) - 1
+        
+        allSequencesFile = path + "_iteration_" + simulationString + "cds.fasta"
+        sequences = rt.getSequences(allSequencesFile)
+        sequenceDict = rt.makeGeneDictionary(sequences)
+        sequenceList = list(sequenceDict.values())
+        
+        for i in range(len(sequenceList)):
+            j=i+1
+            while j < len(sequenceList):
+                difference = abs(sequenceList[i] - sequenceList[j])
+                casesList[casesListIndex].append(difference)
+                
+    for
 
 def getSopScores(f):
     '''
@@ -191,7 +215,7 @@ def getAverageScoreDifference(directory):
         A list of the average scores for the different cases.
     '''
     nrOfSimulations = 500
-    casesList = [[],[],[],[],[]] #5 inner lists for the 5 different cases.
+    casesList = [[],[],[],[],[]] #5 inner lists for the 5 cases, e.g. one with the 1st is for one representative = longest, the 2nd for two representatives = longest etc.
     
     for simulationNr in range(1, nrOfSimulations+1):
         simulationString = (len(str(nrOfSimulations)) - len(str(simulationNr)))*"0" + str(simulationNr)
