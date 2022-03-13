@@ -154,6 +154,22 @@ def getRepLongestLengthDifferenceAverage(directory):
     return averageList
 
 def getSeqLengthDiffAvg(directory):
+    '''
+    Calculates the average difference in length between the sequences in a
+    simulation for each the different cases (amounts) of longest sequences selected as
+    representatives in a simulation.
+
+    Parameters
+    ----------
+    directory : (str)
+        The name of the simulation directory.
+
+    Returns
+    -------
+    avgDifferenceList : (list)
+        A list of the average sequence differences for the 
+
+    '''
     nrOfSimulations = 500
     casesList = [[],[],[],[],[]] #5 inner lists for the 5 cases, e.g. one with the 1st is for one representative = longest, the 2nd for two representatives = longest etc.
     
@@ -164,7 +180,7 @@ def getSeqLengthDiffAvg(directory):
         longestFile = path + "longestTranscripts.fa"
         casesListIndex = representativeIsLongestAmount(representativesFile, longestFile) - 1
         
-        allSequencesFile = path + "_iteration_" + simulationString + "cds.fasta"
+        allSequencesFile = path + "_iteration_" + simulationString + "_cds.fasta"
         sequences = rt.getSequences(allSequencesFile)
         sequenceDict = rt.makeGeneDictionary(sequences)
         sequenceList = list(sequenceDict.values())
@@ -172,10 +188,21 @@ def getSeqLengthDiffAvg(directory):
         for i in range(len(sequenceList)):
             j=i+1
             while j < len(sequenceList):
-                difference = abs(sequenceList[i] - sequenceList[j])
+                difference = abs(len(sequenceList[i]) - len(sequenceList[j]))
                 casesList[casesListIndex].append(difference)
-                
-    for
+                j+=1
+        
+    avgDifferenceList = []
+    for i in range(len(casesList)):
+        average = sum(casesList[i]) / len(casesList[i])
+        avgDifferenceList.append(average)
+        
+    return avgDifferenceList
+
+# testing
+# a = getSeqLengthDiffAvg("small")
+# print(a)
+# plt.plot_date([1,2,3,4,5], a)
 
 def getSopScores(f):
     '''
@@ -312,5 +339,5 @@ def main():
     # plt.savefig("plot1.png")
     plt.show()
     
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
