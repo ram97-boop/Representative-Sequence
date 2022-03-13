@@ -167,8 +167,8 @@ def getSeqLengthDiffAvg(directory):
     Returns
     -------
     avgDifferenceList : (list)
-        A list of the average sequence differences for the 
-
+        A list of the average sequence differences for the different amounts of
+        longest sequences selected as representatives in a simulation.
     '''
     nrOfSimulations = 500
     casesList = [[],[],[],[],[]] #5 inner lists for the 5 cases, e.g. one with the 1st is for one representative = longest, the 2nd for two representatives = longest etc.
