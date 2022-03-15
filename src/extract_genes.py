@@ -3,11 +3,21 @@
 
 def extractGenes(f, genes):
     '''
-    Input is a file of the genes together with their alternative transcripts
-    and a list of the gene names.
-    
-    Returns a list of dictionaries, which each consist
-    of the alternative transcripts of a gene.
+    Creates a list of dictionaries, where each dictionary represents a gene
+    with its key : value pairs being the "sequence identifier" : "sequence"
+    for each of the gene's alternative sequences.
+
+    Parameters
+    ----------
+    f : string.
+        The name of the file containing all the genes' alternative sequences.
+    genes : list of strings.
+        A list of names of the gene in the simulation.
+
+    Returns
+    -------
+    geneList : list of dictionaries.
+        Each of the dictionary contains the alternative sequences of one gene.
     '''
     # print(f)
     # print(genes)
@@ -52,16 +62,24 @@ def extractGenes(f, genes):
         
 def writeGenesToFile(geneList, genes, path):
     '''
-    For each gene in geneList (and genes), creates a file of its alternative
-    transcripts.
-    
-    Input:
-        geneList: list of gene dictionaries (a dictionary of a gene contains
-        the gene's alternative transcripts).
-    
-        genes: a list of the gene names.
-        
-        path: the path (str) for where to produce and place the resulting files.
+    Creates a file containing the alternative sequences for each of the genes
+    in the input.
+
+    Parameters
+    ----------
+    geneList : list of dictionaries.
+        Each dictionary contains the alternative sequences of one gene. The
+        key : value pairs are the "sequence identifier" : "sequence" in the
+        dictionaries.
+    genes : list of strings.
+        A list of the gene names, each corresponding to a dictionary in
+        geneList.
+    path : string.
+        The path to the directory for where to create the resulting files.
+
+    Returns
+    -------
+    None.
     '''
     filePrefix_id = 0
     for gene in geneList:
@@ -93,7 +111,7 @@ def main():
     # print(ls)
     # file.close()
     
-def main2():
+def main2(): #Used for testing.
     inputString = input()
     inputList = inputString.split()
     geneList = extractGenes(inputList[0], inputList[1:])

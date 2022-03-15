@@ -1,3 +1,13 @@
+# This shell script is for creating MSAs of the representatives and the longest sequences
+# respectively in each simulation. It uses the Clustal Omega command line tool.
+
+# To run this enter in the command line:
+#	bash createMSA.sh
+# Then enter the file containing the simulation numbers, where in those simulations
+# not all the longest sequences were selected as representatives. This file is named
+# longestNotReps.txt most likely.
+# Finally, enter the directory containing the simulations.
+
 echo "Enter the file of the simulations where the longest transcripts and representatives differ: "
 
 read longestNotRepresentatives
