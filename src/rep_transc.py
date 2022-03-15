@@ -281,16 +281,22 @@ def findLongestTranscript(gene_transcripts):
 
 def chooseRandomTranscript(gene_transcripts):
     '''
-    Input:
-        gene_transcripts: dictionary of the gene's transcripts.
-        
-    Output:
-        the index of a randomly chosen transcript.
+    Returns the index of a randomly selected alternative sequence of a gene.
+
+    Parameters
+    ----------
+    gene_transcripts : dictionary
+        The key : value pairs are the "sequence identifier" : "sequence" of
+        the alternative sequences of the gene.
+
+    Returns
+    -------
+    An integer
     '''
     numberOfTranscripts = len(list(gene_transcripts.values()))
     return random.randint(0, numberOfTranscripts - 1) #randomly choose a number from 0 to (number of transcripts - 1).
 
-def main2():
+def main():
     print("Selecting representative transcripts.")
     inputLine = input() # Will take in the name of the output file and then the input gene files.
     inputList = inputLine.split()
@@ -319,7 +325,7 @@ def main2():
     
     transcriptFile.close()
         
-def main3():
+def main2():
     print("Finding longest transcripts.")
     inputLine = input()
     inputList = inputLine.split()
@@ -341,7 +347,7 @@ def main3():
         
     longestTranscriptFile.close()
         
-def main4():
+def main3():
     print("Randomly choosing transcripts.")
     inputLine = input()
     inputList = inputLine.split()
@@ -366,8 +372,7 @@ def main4():
 if __name__ == '__main__':
     # main()
     #main2()
-    main3()
-    #main4()
+    #main3()
 
 
 ##### Tests
