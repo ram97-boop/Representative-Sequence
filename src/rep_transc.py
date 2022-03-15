@@ -36,16 +36,20 @@ def findScores(gene, otherSequences):
     '''
     Pairwise-aligns the sequences of gene with
     all of the sequences in otherSequences 
-    and then calculates the scores of gene's
-    sequences' alignments with them.
+    and returns the alignment scores.
 
-    Input:
-    gene (list) = list of alternative sequences of gene.
-    otherSequences (list) = list of all the other sequences.
+    Parameters
+    ----------
+    gene : list of strings.
+        A list of the gene's alternative sequences.
+    otherSequences : list of strings.
+        A list of the alternative sequences of all the other genes.
 
-    Output:
-    scores.matrix (list) = matrix of alignment scores from gene's
-    sequences to all sequences in otherSequences.
+    Returns
+    -------
+    scores.matrix : list of list of integers.
+        Each inner list contains the alignment scores of one of gene's
+        alternative sequences.
     '''
     scores = ScoreMatrix(len(gene))
     seq_i = 0 # Index of the 1st sequence of gene.
@@ -63,8 +67,17 @@ def findScores(gene, otherSequences):
 
 def getSequences(geneFile):
     '''
-    Returns a list of the sequences in
-    geneFile.
+    Returns a list of the sequences in the input file.
+
+    Parameters
+    ----------
+    geneFile : string.
+        The name of the file with the gene's alternative sequences.
+
+    Returns
+    -------
+    sequences : list of strings.
+        The alternative sequences of the gene in the input file.
     '''
     gene = open(geneFile, 'r')
     line = gene.readline()
@@ -120,7 +133,18 @@ def getSequences(geneFile):
 def getAllSeq(f):
     '''
     Returns a list of all the sequences in all
-    the gene files listed in the file f.
+    the gene file names listed in the input file.
+
+    Parameters
+    ----------
+    f : string.
+        A file containing names of the gene files, where each gene file
+        contains alternative sequences of a gene.
+
+    Returns
+    -------
+    sequences : list of strings.
+        A list of the sequences of all the gene files listed in f.
     '''
     geneFileNames = open(f, 'r')
     sequences = []
@@ -135,10 +159,20 @@ def getAllSeq(f):
 
 def getRepSeqFromScores(scoreMatrix):
     '''
-    Returns the number (place) where the representative
-    sequence is in its gene file. So if, for example,
-    the 4th sequence is the representative in a file of
-    5 sequences, then 4 will be returned.
+    Get the index of a gene's alternative sequence that has the highest sum of
+    pairwise alignment scores. This index corresponds the the sequence's
+    placement in the gene's file. Note that the index is 0-indexed.
+
+    Parameters
+    ----------
+    scoreMatrix : list of list of integers.
+        Each inner list contains the alignment scores of one sequence of the
+        gene.
+
+    Returns
+    -------
+    max_i : integer.
+        The index of the sequence with the highest sum of alignment scores.
     '''
     scoreSum = []
     for seqScores in scoreMatrix:
@@ -156,117 +190,21 @@ def getRepSeqFromScores(scoreMatrix):
 
     return max_i
 
-
-def main():
-    '''
-    '''
-    # Dynamic programming(?)
-    inputFile = input() # Should take in a file of filenames of the genes in the same directory as this python file.
-    geneFilenames = open(inputFile, 'r')
-
-    # This will contain the Gene objects (for all genes).
-    listOfGenes = []
-
-    # Assuming the filenames in geneFilenames are sorted in the same way as the actual files are sorted in the directory.
-    i = 0
-    for gene in geneFilenames:
-        geneSequences = getSequences(gene[:-1]) # Ignoring the '\n' at the end of each filename.
-        listOfGenes.append(Gene(i, geneSequences))
-        i+=1
-
-    geneFilenames.close()
-
-    # For each gene, we align its sequences to the other
-    # genes, and then store the score in its matrix.
-    # At the same time, for each of the other genes, we
-    # store the score between their sequences and this
-    # gene's sequences in their respective matrices. After 
-    # a gene has been iterated on we don't include it in
-    # the coming alignments to be done for the rest of the
-    # genes during the next iterations as its alignment
-    # has already been done with them and the scores
-    # stored in both their matrices. For genes with only
-    # one sequence we store the scores only in the
-    # matrices of the genes they're being aligned with
-    # (only when they're being iterated on).
-    
-    repSeqNrList = [] # Representative sequence number list.
-    
-    # Each iteration of this while-loop will find the representative sequence of a gene
-    while len(listOfGenes) > 1: # While listOfGenes has more than 1 gene.
-        gene = listOfGenes[0] # get the 1st gene from this list
-        listOfGenes = listOfGenes[1:] # Remove gene from the list.
-        
-        # Constructing the ScoreMatrix for gene
-        # And storing the scores of the alignments between gene and the rest in
-        # listOfGenes in their respective matrices.
-        for gene2 in listOfGenes:
-            scores = findScores(gene.sequences, gene2.sequences)
-            # An example:
-            # gene's scores = [[11,20,35,1],[20,11,10,34],[7,14,36,2]]
-            # should be stored in gene2's score matrix like so:
-            # [[11,20,7],[20,11,14],[35,10,36],[1,34,2]]
-            
-            # If gene has more than 1 sequence.
-            if len(gene.sequences) > 1:
-                # Storing scores in gene's matrix.
-                for i in range(len(scores)):
-                    gene.matrix[i]+=scores[i] 
-                
-                    # Storing the scores in gene2's matrix.
-                    for j in range(len(scores[0])): # length of gene2's matrix (nr of sequences).
-                        gene2.matrix[j].append(scores[i][j])
-                
-            # If gene only has 1 sequence.
-            elif len(gene.sequences) == 1:
-                # Only store the scores in gene2's matrix.
-                for i in range(len(scores)):
-                    for j in range(len(scores[0])):
-                        gene2.matrix[j].append(scores[i][j])
-            
-            # For some case(s) we can't maybe haven't foreseen.
-            else:
-                print("A gene has less than 1 sequence?")
-                
-
-        representativeSequence = getRepSeqFromScores(gene.matrix)
-
-        # Prints the representative sequence of gene.
-        # E.g. if the first sequence is the representative
-        # then '0' will be printed (0-indexed).
-        print(representativeSequence) 
-
-        # Store the representative sequence of each gene in
-        # this list.
-        repSeqNrList.append(representativeSequence)
-        
-        # print(listOfGenes[0].matrix)
-        
-    # Get the representative transcript of the one leftover gene in
-    # listOfGenes.
-    print(getRepSeqFromScores(listOfGenes[0].matrix))
-
-    # Store the place of the representative sequence in this list.
-    repSeqNrList.append(getRepSeqFromScores(listOfGenes[0].matrix))
-    
-    # Storing the output.
-    outputFile = open("output.txt", "w")
-    n = 0
-    geneFilenames2 = open(inputFile, "r")
-    for gene in geneFilenames2:
-        outputFile.write(gene[:-1] + "\n" + str(repSeqNrList[n]) + "\n")
-
-    outputFile.close()
-
-
-    ### Tests
-
-    # Checking the number of sequences of the 15th gene in the current directory
-#    print(len(listOfGenes[14].matrix))
-
 def makeGeneDictionary(transcripts):
     '''
-    A transcript must be e.g. ">cds_0_ggal\nATGCGA..." or ">cds_0_btaus\nGAGTC"
+    Creates a dictionary for a gene, with the key : value pairs being the
+    "sequence identifier" : "sequence" of the alternative sequences of the
+    gene.
+
+    Parameters
+    ----------
+    transcripts : list of strings.
+        Each entry of the list must be e.g. ">cds_0_ggal\nATGCGA...",
+        ">cds_0_btaus\nGAGTC", etc.
+
+    Returns
+    -------
+    transcriptDict : dictionary
     '''
     transcriptDict = {}
     for transcript in transcripts:
@@ -276,6 +214,21 @@ def makeGeneDictionary(transcripts):
     return transcriptDict
 
 def fillScoreMatrices(geneList):
+    '''
+    Pairwisely aligns the alternative sequences of each gene with the sequences
+    of all the other genes in the input list of genes. The scores are stored in
+    the gene's score matrix. This is done for all the genes in the input list.
+    After this function is done executing, all the genes should then have been
+    aligned with the rest and the scores filled in their respective matrices.
+
+    Parameters
+    ----------
+    geneList : list of Gene objects.
+
+    Returns
+    -------
+    None.
+    '''
     while len(geneList) > 1: #while there's more than 1 gene in geneList.
         gene = geneList[0]
         geneList = geneList[1:]
@@ -301,11 +254,20 @@ def fillScoreMatrices(geneList):
 
 def findLongestTranscript(gene_transcripts):
     '''
-    Input:
-        gene_transcripts: dictionary of the gene's transcripts.
+    Find the index of the longest sequence of a gene. The index corresponds to
+    the longest sequence's placement in the gene file. Note that the index is
+    0-indexed.
 
-    Output:
-        the index of the gene's longest transcript.
+    Parameters
+    ----------
+    gene_transcripts : dictionary
+        The key : value pairs are the "sequence identifier" : "sequence" of
+        the alternative sequences of the gene.
+
+    Returns
+    -------
+    longest_id : integer
+        The index of the longest sequence.
     '''
     transcripts = list(gene_transcripts.values())
     largestLength = 0

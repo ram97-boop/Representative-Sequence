@@ -2,6 +2,9 @@
 # .fasta files produced in the e.g. Example/output/small/cds/
 # directory of the modified SimSpliceEvol program. Then, the
 # .fasta files will be placed in their respective directory.
+# This is done before any work is done on the .fasta files
+# like e.g. extracting the representatives, the longest
+# sequences etc.
 
 # To run this script enter in the command line:
 #	bash arrange_data.sh 
