@@ -1,3 +1,15 @@
+# This shell script is for creating a file containing the
+# sum-of-pairs scores of the representatives' MSAs and the 
+# longest sequences' MSAs respectively of a gene in a
+# simulation. This is done for all simulations in the
+# input simulation directory. Note that the scoring scheme
+# is defined in a function in the sum_of_pairs.py script,
+# which is used here.
+
+# To run this script enter in the command line:
+#	bash sum_of_pairs.sh
+# Then enter the directory containg the simulations.
+
 echo "Enter the simulation directory: "
 
 read simulationDirectory

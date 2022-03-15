@@ -1,29 +1,37 @@
 # -*- coding: utf-8 -*-
 
-import numpy as np
+# import numpy as np
 import rep_transc
 
 def makeMsaDictionary(msa):
     '''
-    Input:
-    msa: the MSA file.
+    Make a dictionary of the input MSA. The keys will be the MSA's sequence
+    identifiers and the values will be the sequences themselves.
 
-    Output:
-    A dictionary of the sequences in the MSA, with a key
-    being the identifier of the sequences and the value being
-    the sequence itself.
+    Parameters
+    ----------
+    msa : string.
+        name of the MSA file.
+
+    Returns
+    -------
+    dictionary.
     '''
     return rep_transc.makeGeneDictionary(rep_transc.getSequences(msa))
 
 def scorePair(seq1, seq2):
     '''
-    Input:
-    seq1: a sequence in the MSA.
+    Score a pair of sequences from an MSA using the sum-of-pairs method.
 
-    seq2: another sequence in the MSA.
+    Parameters
+    ----------
+    seq1 : string.
+        
+    seq2 : string.
 
-    Output:
-    The score (int) between these two sequences of the MSA.
+    Returns
+    -------
+    score : integer.
     '''
     match = 3
     mismatch = -2
@@ -54,9 +62,6 @@ def main():
     #sequenceDictionary = makeMsaDictionary(inputList[1])
     sequenceDictionary = makeMsaDictionary(inputLine)
     sequenceList = list(sequenceDictionary.values())
-
-    #Create a 5x5 matrix full of zeros.
-    # matrix = np.zeros((5,5))
     
     sumOfPairs = 0
 
