@@ -2,7 +2,7 @@
 __pycache__/
 *.swp
 akap-fish/
-akap-fish-copy/
+akap-fish-modified/
 SimSpliceEvol2/Example/output/
 src/*.fa
 src/clustal-omega-1.2.4/
