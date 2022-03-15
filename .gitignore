@@ -4,8 +4,3 @@ __pycache__/
 akap-fish/
 akap-fish-modified/
 SimSpliceEvol_modified/Example/output/
-src/*.fa
-src/clustal-omega-1.2.4/
-src/test.*
-src/test/
-src/alternative_transcripts/
