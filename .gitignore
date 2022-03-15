@@ -4,8 +4,8 @@ __pycache__/
 akap-fish/
 akap-fish-copy/
 SimSpliceEvol2/Example/output/
-testing/*.fa
-testing/clustal-omega-1.2.4/
-testing/test.*
-testing/test/
-testing/alternative_transcripts/
+src/*.fa
+src/clustal-omega-1.2.4/
+src/test.*
+src/test/
+src/alternative_transcripts/
