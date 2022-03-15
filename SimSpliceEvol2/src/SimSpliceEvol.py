@@ -1185,7 +1185,7 @@ if __name__ == "__main__":
 
 	for i in range(500):
 		cmpt_string = str(cmpt)
-		cmpt_string = (len(str(100)) - len(cmpt_string)) * '0' + cmpt_string
+		cmpt_string = (len('100') - len(cmpt_string)) * '0' + cmpt_string
 		print("Simulation " + str(i))
 		main(cost[0], cost[1], cost[2], "iteration_" + str(cmpt_string), arg) 
 		cmpt += 1
