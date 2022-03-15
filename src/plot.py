@@ -13,15 +13,15 @@ def representativeIsLongestAmount(representativesFile, longestFile):
     
     Parameters
     ----------
-    representativesFile : (str)
+    representativesFile : string.
         The name of the file with the representative sequences.
         
-    longestFile : (str)
+    longestFile : string.
         The name of the file with the longest sequences.
         
     Returns
     -------
-    representativesAlsoLongest : (int)
+    representativesAlsoLongest : integer.
         The number of representatives that are also the longest sequences.
     '''
     # Making two dictionaries containing the files' respective sequences.
@@ -45,12 +45,12 @@ def gatherRepresentativeIsLongestData(directory):
 
     Parameters
     ----------
-    directory : (str)
+    directory : string.
         The simulation directory.
 
     Returns
     -------
-    values : (list)
+    values : list of integers.
         A list of integers whose values are the number of cases where there
         is/are:
             1 representative sequences that are also the longest,
@@ -85,15 +85,15 @@ def getRepLongestLengthDifference(representativesFile, longestFile):
 
     Parameters
     ----------
-    representativesFile : (str)
+    representativesFile : string.
         The name of the file with the representative sequences.
         
-    longestFile : (str)
+    longestFile : string.
         The name of the file with the longest sequences.
 
     Returns
     -------
-    differenceList : (list)
+    differenceList : list of integers.
         A list of the length differences between the representatives and the
         longest sequences of the gene.
     '''
@@ -122,12 +122,12 @@ def getRepLongestLengthDifferenceAverage(directory):
 
     Parameters
     ----------
-    directory : (str)
+    directory : string.
         The name of the simulation directory.
 
     Returns
     -------
-    averageList : (list)
+    averageList : list of integers.
         A list of the lenght difference averages of the different cases.
     '''
     nrOfSimulations = 500
@@ -161,12 +161,12 @@ def getSeqLengthDiffAvg(directory):
 
     Parameters
     ----------
-    directory : (str)
+    directory : string.
         The name of the simulation directory.
 
     Returns
     -------
-    avgDifferenceList : (list)
+    avgDifferenceList : list of integers.
         A list of the average sequence differences for the different amounts of
         longest sequences selected as representatives in a simulation.
     '''
@@ -210,12 +210,12 @@ def getSopScores(f):
 
     Parameters
     ----------
-    f : (str)
+    f : string.
         The name of the sum-of-pairs score file, e.g. 'sop.txt'
 
     Returns
     -------
-    scores : (list)
+    scores : list of integers.
         A list of the scores.
     '''
     scoreFile = open(f, 'r')
@@ -233,12 +233,12 @@ def getAverageScoreDifference(directory):
 
     Parameters
     ----------
-    directory : (str)
+    directory : string.
         The name of the simulation directory.
 
     Returns
     -------
-    averageList : (list)
+    averageList : list of integers.
         A list of the average scores for the different cases.
     '''
     nrOfSimulations = 500
@@ -281,12 +281,12 @@ def getAverageScoreDifferenceOverall(directory):
 
     Parameters
     ----------
-    directory : (str)
+    directory : string.
         the name of the simulation directory.
 
     Returns
     -------
-    average : (int)
+    average : integer.
         The average score difference.
     '''
     nrOfSimulations = 500

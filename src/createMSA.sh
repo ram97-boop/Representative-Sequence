@@ -8,7 +8,7 @@
 # longestNotReps.txt most likely.
 # Finally, enter the directory containing the simulations.
 
-echo "Enter the file of the simulations where the longest transcripts and representatives differ: "
+echo "Enter the file listing the simulations where the longest transcripts and representatives differ: "
 
 read longestNotRepresentatives
 
