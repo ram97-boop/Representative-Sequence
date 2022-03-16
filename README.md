@@ -1,7 +1,7 @@
 # Representative-Sequence
 
 ### SimSpliceEvol/
-Contains the source code of the SimSpliceEvol program at the time of this project.
+Contains the source code of the SimSpliceEvol program at the time of this project. Taken from https://github.com/UdeS-CoBIUS/SimSpliceEvol.
 
 ### SimSpliceEvol_modified/
 Contains the modifications to the original source code of SimSpliceEvol. The modifications is for making the program produce five alternative sequences per gene in a simulation. 
