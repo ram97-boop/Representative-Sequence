@@ -369,7 +369,7 @@ def main3():
         
     randomTranscriptFile.close()
 
-if __name__ == '__main__':
+# if __name__ == '__main__':
     # main()
     #main2()
     #main3()
