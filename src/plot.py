@@ -4,6 +4,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import rep_transc as rt
+import math
 
 def representativeIsLongestAmount(representativesFile, longestFile):
     '''
@@ -152,7 +153,7 @@ def getRepLongestLengthDiffAvgOverall(directory):
     average = sum(differencesList) / len(differencesList)        
     return average
 
-def getRepLongestLengthDifferenceAverage2(directory):
+def getRepLongestLengthDifferenceAverage(directory):
     '''
     Get the length difference average between the representatives and the 
     longest sequences for each of the 'representatives = longest sequences'
@@ -201,49 +202,10 @@ def getRepLongestLengthDifferenceAverage2(directory):
             averageList.append(average)
         else:
             averageList.append(0)
+            
+    standardDeviations = getStdDeviations(casesList, averageList)
         
-    return averageList
-        
-
-def getRepLongestLengthDifferenceAverage(directory):
-    '''
-    Get the length difference average between the representatives and the 
-    longest sequences for each of the 'representatives = longest sequences'
-    cases, e.g. one case being the one with one representative that's also the
-    gene's longest sequence, another being the one with two representatives, etc.
-
-    Parameters
-    ----------
-    directory : string.
-        The name of the simulation directory.
-
-    Returns
-    -------
-    averageList : list of integers.
-        A list of the lenght difference averages of the different cases.
-    '''
-    nrOfSimulations = 500
-    casesList = [[],[],[],[],[]] #5 inner lists for the 5 cases, e.g. one with the 1st is for one representative = longest, the 2nd for two representatives = longest etc.
-    
-    for simulationNr in range(1, nrOfSimulations+1):
-        simulationString = (len(str(nrOfSimulations)) - len(str(simulationNr)))*"0" + str(simulationNr)
-        path = directory + "/_iteration_" + simulationString + "_cds/"
-        representativesFile = path + "representatives.fa"
-        longestFile = path + "longestTranscripts.fa"
-        
-        index = representativeIsLongestAmount(representativesFile, longestFile) - 1
-        differenceList = getRepLongestLengthDifference(representativesFile, longestFile)
-        casesList[index] += differenceList
-        
-    averageList = []
-    for i in range(len(casesList)):
-        if len(casesList[i]) != 0:
-            average = sum(casesList[i]) / len(casesList[i])
-            averageList.append(average)
-        else:
-            averageList.append(0)
-        
-    return averageList
+    return averageList, standardDeviations
 
 
 def getSeqLengthDiffAvg(directory):
@@ -353,8 +315,8 @@ def getAverageScoreDifference(directory):
             sopScores = getSopScores(sopScoreFile)
             scoreDifference = int(sopScores[0]) - int(sopScores[1])
             
-            if scoreDifference >= 0:
-                casesList[index].append(scoreDifference*(1))
+            if scoreDifference < 0:
+                casesList[index].append(scoreDifference*(-1))
                 
         except:
             continue #skip simulations where there is no sop.txt file because all of its representatives are also the longest sequences.
@@ -366,8 +328,47 @@ def getAverageScoreDifference(directory):
             averageList.append(average)
         else:
             averageList.append(0)
+            
+    standardDeviations = getStdDeviations(casesList, averageList)
         
-    return averageList
+    return averageList, standardDeviations
+
+
+def getStdDeviations(casesList,averageList):
+    '''
+    Calculates and returns the standard deviations for each case in casesList.
+
+    Parameters
+    ----------
+    casesList : List of lists of integers.
+        A list that contains 5 inner lists, each representing the amount of
+        longest sequences selected as representatives in a simulation. An
+        inner list must contain values (integer) of some sort for the
+        simulations contained within it.
+    
+    averageList : List of integers.
+        A list of averages for each of the inner lists in casesList.
+
+    Returns
+    -------
+    standardDeviations : List of integers.
+        A list of the standard deviations for each of the inner lists in
+        casesList.
+    '''
+    standardDeviations = []
+    for case, average in zip(casesList, averageList):
+        squaredDeviations = 0
+        for value in case:
+            squaredDeviations += (value - average)**2
+            
+        try:
+            stdDeviation = math.sqrt(squaredDeviations / len(case))
+        except: #catch a 0-division error when a case has no values.
+            stdDeviation = 0
+            
+        standardDeviations.append(stdDeviation)
+        
+    return standardDeviations
 
 def getAverageScoreDifferenceOverall(directory):
     '''
@@ -414,27 +415,30 @@ def main():
     
     x = [1,2,3,4,5]
     # y = gatherRepresentativeIsLongestData(simulationDirectory)
-    # y = getRepLongestLengthDifferenceAverage(simulationDirectory)
-    y = getRepLongestLengthDifferenceAverage2(simulationDirectory)
-    # y = getAverageScoreDifference(simulationDirectory)
+    # y, e = getRepLongestLengthDifferenceAverage(simulationDirectory)
+    y, e = getAverageScoreDifference(simulationDirectory)
     print(y)
+    print(e)
     
     fig, ax = plt.subplots()
     
-    ax.bar(x, y, width=1, edgecolor="white", linewidth=0.7)
+    # ax.bar(x, y, width=1, edgecolor="white", linewidth=0.7)
+    ax.errorbar(x, y, e, linestyle="None", marker="o", ecolor="r")
     
     ax.set(xlim=(0.5,5.5), xticks=list(range(1,6)),
             # ylim=(0,220), yticks=np.arange(0,220,10))
-            ylim=(0,200), yticks=np.arange(0,200,10))
-            # ylim=(0,9500), yticks=np.arange(0,9100,1000))
+            # ylim=(-10,240), yticks=np.arange(0,250,10))
+            ylim=(-1000,10000), yticks=np.arange(0,11000,1000))
+            
+    # plt.errorbar(x, y, e, linestyle="None", marker="o")
     
     # plt.title('Amount of longest sequences selected\nas representatives in a simulation')
-    plt.title('Average difference in length\nbetween representatives and longest sequences')
-    # plt.title("Average difference in sum-of-pairs score\nbetween representatives and longest sequences")
+    # plt.title('Average difference in length\nbetween representatives and longest sequences')
+    plt.title("Average difference in sum-of-pairs score\nbetween representatives and longest sequences")
     plt.xlabel("Number of longest sequences selected\nas representatives in a simulation")
-    plt.ylabel("Number of simulations")
+    # plt.ylabel("Number of simulations")
     # plt.ylabel("Difference in number of symbols")
-    # plt.ylabel("Difference in points")
+    plt.ylabel("Difference in points")
     
     # plt.savefig("plot1.png")
     plt.show()
